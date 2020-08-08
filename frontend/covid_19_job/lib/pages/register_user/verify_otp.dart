@@ -23,6 +23,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
   Widget build(BuildContext context) {
     dataFromPreviousPage = ModalRoute.of(context).settings.arguments;
     print(dataFromPreviousPage);
+
     if (!(dataFromPreviousPage.containsKey('mobileNo') &&
         dataFromPreviousPage.containsKey('userId'))) {
       Navigator.pop(context);
@@ -607,6 +608,9 @@ class _ScaffoldWidgetState extends State<ScaffoldWidget> {
         }
         }
     }).catchError((onError) {
+
+      print(onError);
+
       Navigator.pushNamedAndRemoveUntil(
           context, UiPagesPath.AWW_SNAP, (route) => false);
     });

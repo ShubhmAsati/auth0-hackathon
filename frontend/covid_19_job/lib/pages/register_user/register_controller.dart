@@ -18,10 +18,6 @@ class RegisterController{
     String body = json.encode(userDetails);
     print(body);
     ResponseHandler response = await RestHandler.syncPost(apiPath, null, headers, body);
-    print(response.getResponse());
-    print(response.getError());
-    print(response.getResponse());
-    print(response.getHttpCode());
     if(response.getHttpCode() == 201 || response.getHttpCode()==200){
       //success path
 

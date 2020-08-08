@@ -535,7 +535,7 @@ class _RegisterFormState extends State<RegisterForm> {
     Map<String,dynamic> userDetails ={
       "firstName": firstNameController.text,
       "lastName": lastNameController.text,
-      "mobileNo": mobile.phoneNumber,
+      "mobileNumber": mobile.phoneNumber,
       "password": passwordController.text
     };
 //    p.pr.show();
@@ -549,6 +549,7 @@ class _RegisterFormState extends State<RegisterForm> {
           Map<String,dynamic> nextPagePayload ;
           nextPagePayload = value['data'];
           nextPagePayload["previousPage"] = UiPagesPath.REGISTER;
+          nextPagePayload['mobileNo'] = mobile.phoneNumber;
           print(value['nextPage']);
           Navigator.pushNamedAndRemoveUntil(widget.parentContext,value["nextPage"],(route) => false,arguments:nextPagePayload);
         }else{
