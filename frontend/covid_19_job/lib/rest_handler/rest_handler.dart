@@ -40,6 +40,7 @@ class RestHandler {
             errorCode: Error.unableToProcess,
             errMsg: Error.unableToProcessMsg,
             metadata: error);
+        print(error);
         ResponseHandler resp = ResponseHandler(
             response: null, httpStatus: response.statusCode, error: err);
         return resp;
@@ -89,9 +90,7 @@ class RestHandler {
       print(url);
       http.Response response =
           await http.post(url, headers: headers, body: body);
-      print(response.statusCode);
-      print("booma");
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         Map result;
         if (response.body.isNotEmpty) {
           result = jsonDecode(response.body);

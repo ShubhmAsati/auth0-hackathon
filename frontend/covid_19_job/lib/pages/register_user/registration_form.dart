@@ -312,7 +312,6 @@ class _RegisterFormState extends State<RegisterForm> {
                 }
               },
               onInputValidated: (bool value){
-                print(value);
                 setState(() {
                   mobileNoValid = value;
                 });
@@ -545,17 +544,24 @@ class _RegisterFormState extends State<RegisterForm> {
       if (nextPage.isEmpty){
         widget.callback(false,value['error']);
       }else{
-        widget.callback(true,"Success");
-        Map<String,dynamic> nextPagePayload = value;
-        nextPagePayload["mobileNo"] = mobile.phoneNumber;
-        nextPagePayload["previousPage"] = "/register";
-        Navigator.pushNamed(widget.parentContext,value["nextPage"],arguments: {
-          "nextPagePayload" : nextPagePayload
-        });
+        if (value['error'].toString().isEmpty){
+          widget.callback(true,"Success");
+          Map<String,dynamic> nextPagePayload ;
+          nextPagePayload = value['data'];
+          nextPagePayload["previousPage"] = UiPagesPath.REGISTER;
+          print(value['nextPage']);
+          Navigator.pushNamedAndRemoveUntil(widget.parentContext,value["nextPage"],(route) => false,arguments:nextPagePayload);
+        }else{
+          Map<String,dynamic> nextPagePayload  = {} ;
+          nextPagePayload["previousPage"] = UiPagesPath.REGISTER;
+          widget.callback(false,value['error']);
+          Navigator.pushNamedAndRemoveUntil(widget.parentContext,UiPagesPath.USER_HOME_PAGE,(route) => false);
+        }
       }
     }
     ).catchError((err){
-      Navigator.pushNamedAndRemoveUntil(context, UiPagesPath.AWW_SNAP, (route) => false);
+      print(err);
+      Navigator.pushNamedAndRemoveUntil(context, UiPagesPath.AWW_SNAP,(route) => false,);
     });
   }
 }
