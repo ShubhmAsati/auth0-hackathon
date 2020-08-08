@@ -32,4 +32,7 @@ class LoginRegisterController {
       //oops something bad happened we are trying to resolve the issue
     }
   }
+
+
+
 }

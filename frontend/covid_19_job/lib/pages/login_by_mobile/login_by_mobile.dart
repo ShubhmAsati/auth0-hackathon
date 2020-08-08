@@ -231,7 +231,7 @@ class _LoginByMobileState extends State<LoginByMobile> {
                             children: <Widget>[
                               RaisedButton(
                                 onPressed: (){
-                                  Navigator.pushReplacementNamed(context, "/register");
+                                  Navigator.pushReplacementNamed(context, UiPagesPath.REGISTER);
                                 },
                                 color: Colors.teal[500],
                                 child: Text(

@@ -1,3 +1,4 @@
+import 'package:covid_19_job/const/ui_pages.dart';
 import 'package:flutter/material.dart';
 
 class AwwSnap extends StatefulWidget {
@@ -33,75 +34,20 @@ class _AwwSnapState extends State<AwwSnap> {
               Row(
                 children: <Widget>[
                   Expanded(
-                    flex: 21,
+                    flex: 1,
                     child: SizedBox(
                         width:20
                     ),
                   ),
-//                  Expanded(
-//                    flex: 4,
-//                    child: Container(
-//                      decoration: BoxDecoration(
-//                          color: Colors.deepOrange,
-//                          border: Border.all(
-//                              color: Colors.white,
-//                              width: 2
-//                          )
-//                      ),
-//                      child: Text("4",
-//                        style: TextStyle(
-//                          fontSize: 40,
-//                          fontWeight: FontWeight.bold
-//                        ),
-//                      ),
-//                    ),
-//                  ),
-//                  Expanded(
-//                    flex: 4,
-//                    child: Container(
-//                      margin: EdgeInsets.only(top:10),
-//                      decoration: BoxDecoration(
-//                        color: Colors.deepOrange,
-//                        border: Border.all(
-//                            color: Colors.white,
-//                            width: 2
-//                        )
-//                      ),
-//                      child: Text("0",
-//                        style: TextStyle(
-//                          fontSize: 40,
-//                          fontWeight: FontWeight.bold
-//                        ),
-//                      ),
-//                    ),
-//                  ),
-//                  Expanded(
-//                    flex: 4,
-//                    child: Container(
-//                      decoration: BoxDecoration(
-//                          color: Colors.deepOrange,
-//                          border: Border.all(
-//                              color: Colors.white,
-//                              width: 2
-//                          )
-//                      ),
-//                      child: Text("4",
-//                        style: TextStyle(
-//                          fontSize: 40,
-//                          fontWeight: FontWeight.bold
-//                        ),
-//                      ),
-//                    ),
-//                  ),
                   Expanded(
-                    flex:21,
+                    flex:1,
                     child: Image(
                       image: AssetImage("assets/snap.jpg"),
                       fit: BoxFit.fitHeight,
                     ),
                   ),
                   Expanded(
-                    flex: 21,
+                    flex: 1,
                     child: SizedBox(
                         width:20
                     ),
@@ -167,43 +113,43 @@ class _AwwSnapState extends State<AwwSnap> {
                   height: 0,
                 ),
               ),
-//              Row(
-//                mainAxisAlignment: MainAxisAlignment.center,
-//                children: <Widget>[
-//                  RaisedButton(
-//                    shape: RoundedRectangleBorder(
-//                      borderRadius: BorderRadius.circular(25)
-//                    ),
-//                    onPressed: (){
-//
-//                    },
-//                    color: Colors.teal[500],
-//                    child: Row(
-//                      children: <Widget>[
-//                        Container(
-//                          decoration: BoxDecoration(
-//                              shape: BoxShape.circle,
-//                              color: Colors.white,
-//                          ),
-//                          child: Icon(
-//                              Icons.arrow_back
-//                          ),
-//                        ),
-//                        SizedBox(
-//                          width: 5,
-//                        ),
-//                        Text("Back To Previous Page"),
-//                      ],
-//                    ),
-//                  ),
-//                ],
-//              ),
-//              Expanded(
-//                flex: 3,
-//                child: SizedBox(
-//                  height: 0,
-//                ),
-//            ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25)
+                    ),
+                    onPressed: (){
+                      Navigator.pushReplacementNamed(context, UiPagesPath.LOGIN_BY_MOBILE);
+                    },
+                    color: Colors.teal[500],
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                          ),
+                          child: Icon(
+                              Icons.arrow_back
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text("Back To Home Page"),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                flex: 5,
+                child: SizedBox(
+                  height: 0,
+                ),
+            ),
             ],
           ),
         ),
