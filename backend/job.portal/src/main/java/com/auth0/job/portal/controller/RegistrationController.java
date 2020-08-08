@@ -17,6 +17,7 @@ import com.auth0.job.portal.validator.RequestValidator;
 import java.util.UUID;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping(CONTEXT_URL + "/register/v1")
 @RequiredArgsConstructor
@@ -40,8 +42,11 @@ public class RegistrationController {
   @PostMapping("/step-one")
   public ResponseEntity<JobPortalResponse> registrationStepOne(
       @Valid @RequestBody RegistrationStepOneRequest registrationStepOneRequest) {
+    log.info("Request {}", registrationStepOneRequest);
     ParkedUserDto parkedUserDto = userRegistrationService
         .registrationStepOne(parkedUserConverter.toParkedUserDto(registrationStepOneRequest));
+
+    log.info("Response {}", parkedUserDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(parkedUserConverter.toResponse(
         parkedUserDto));
   }
