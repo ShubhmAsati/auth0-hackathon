@@ -1,5 +1,7 @@
 import 'package:covid_19_job/const/ui_pages.dart';
 import 'package:covid_19_job/const/api_pages.dart';
+import 'package:covid_19_job/utils/get_devide_info.dart';
+import 'package:http/http.dart';
 import 'package:path/path.dart' as path;
 import 'package:covid_19_job/rest_handler/rest_handler.dart';
 import 'package:covid_19_job/models/rest_handler.dart';
@@ -32,7 +34,32 @@ class LoginRegisterController {
       //oops something bad happened we are trying to resolve the issue
     }
   }
-
-
-
+  Future<Map<String, dynamic>> Authorize(String userHash) async {
+    String apiPath = path.join(ApiPath.JOB_PORTAL,
+        ApiPath.APIVERSIONV1,ApiPath.AUTHORIZE);
+    Map<String,String> headers = {
+      'user-hash': userHash,
+       'device-id' : GetDeviceInfo.DeviceId,
+    };
+    ResponseHandler response = await RestHandler.syncGet(apiPath, null, headers);
+    if (response.getHttpCode() == 200) {
+      print(response.getResponse());
+      return {
+        "nextPage": UiPagesPath.USER_HOME_PAGE,
+        "data": response.getResponse()
+      };
+    } else if (response.getHttpCode() == 400) {
+      //user is not registered go to register page
+      return {"nextPage": UiPagesPath.AWW_SNAP, "data": response.getResponse()};
+    } else if (response.getHttpCode() == 500) {
+      //failed to generate otp , send to login with password screen
+      return {
+        "nextPage": UiPagesPath.AWW_SNAP,
+        "data": response.getResponse()
+      };
+    } else {
+      throw (response);
+      //oops something bad happened we are trying to resolve the issue
+    }
+  }
 }

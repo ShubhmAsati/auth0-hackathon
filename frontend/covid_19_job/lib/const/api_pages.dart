@@ -5,4 +5,5 @@ class ApiPath{
   static String LOGIN_BY_MOBILE_OTP = "login-by-otp";
   static String REGISTER = "register";
   static String STEP_ONE = "step-one";
+  static String AUTHORIZE = 'authorize';
 }

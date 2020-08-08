@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:covid_19_job/pages/login_by_mobile/login_by_mobile_controller.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:ndialog/ndialog.dart';
+import 'package:covid_19_job/utils/get_local_data.dart';
 
 class LoginByMobile extends StatefulWidget {
   @override
@@ -20,8 +21,8 @@ class _LoginByMobileState extends State<LoginByMobile> {
   bool mobileDecoration;
   PhoneNumber mobile;
 
-  Color mobileColorChanger(){
-    return valid?Colors.teal[500]:Colors.grey;
+  Color mobileColorChanger() {
+    return valid ? Colors.teal[500] : Colors.grey;
   }
 
   @override
@@ -30,6 +31,7 @@ class _LoginByMobileState extends State<LoginByMobile> {
     super.initState();
     valid = false;
     mobileDecoration = true;
+    doInitialCheckup();
   }
 
   @override
@@ -54,11 +56,11 @@ class _LoginByMobileState extends State<LoginByMobile> {
           //      ),
           resizeToAvoidBottomPadding: true,
           backgroundColor: Colors.white,
-          body:SingleChildScrollView(
+          body: SingleChildScrollView(
             child: SafeArea(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0),
-                child:Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
@@ -81,24 +83,25 @@ class _LoginByMobileState extends State<LoginByMobile> {
                     //                      ),
                     //                    ),
                     //                  ),
-                    SizedBox(height: 20,),
-                    Text(
-                        "LOG IN",
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text("LOG IN",
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
                           color: Colors.grey[500],
-                        )
-                    ),
-                    SizedBox(height:20.0),
+                        )),
+                    SizedBox(height: 20.0),
                     //                    CircleAvatar(
                     //                      backgroundImage: AssetImage("images/covi.jpg"),
                     //                      radius: 20,
                     //                    ),
                     //                    SizedBox(height: 80,),
                     Container(
-                      margin: EdgeInsets.only(top:80),
-                      padding: EdgeInsets.only(left:10.0,right:10.0,bottom: 30,top: 50),
+                      margin: EdgeInsets.only(top: 80),
+                      padding: EdgeInsets.only(
+                          left: 10.0, right: 10.0, bottom: 30, top: 50),
                       //                      decoration: BoxDecoration(
                       //                        color: Colors.grey[200],
                       //                        border: Border.all(
@@ -111,32 +114,25 @@ class _LoginByMobileState extends State<LoginByMobile> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                            padding: EdgeInsets.only(
-                                left: 10
-                            ),
-                            decoration: mobileDecoration?
-                            BoxDecoration(
-                              border:  Border.all(
-                                  color: Colors.teal[500],
-                                  width: 2.0
-                              ),
-                              borderRadius: BorderRadius.circular(25),
-                            )
-                                :
-                            BoxDecoration(
-                              border:  Border.all(
-                                  color: Colors.red,
-                                  width: 2.0
-                              ),
-                              borderRadius: BorderRadius.circular(25),
-                            ),
+                            padding: EdgeInsets.only(left: 10),
+                            decoration: mobileDecoration
+                                ? BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.teal[500], width: 2.0),
+                                    borderRadius: BorderRadius.circular(25),
+                                  )
+                                : BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.red, width: 2.0),
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
                             child: InternationalPhoneNumberInput(
                               keyboardAction: TextInputAction.done,
-                              countries: ['IN','US','GB'],
-                              onInputChanged: (PhoneNumber number) async{
+                              countries: ['IN', 'US', 'GB'],
+                              onInputChanged: (PhoneNumber number) async {
                                 mobile = number;
                               },
-                              onInputValidated: (bool value){
+                              onInputValidated: (bool value) {
                                 print(value);
                                 setState(() {
                                   mobileDecoration = value;
@@ -146,37 +142,40 @@ class _LoginByMobileState extends State<LoginByMobile> {
                               inputDecoration: InputDecoration(
                                 hintText: "Enter Mobile Number",
                                 border: OutlineInputBorder(
-                                    borderSide:BorderSide.none
-                                ),
+                                    borderSide: BorderSide.none),
                               ),
                             ),
                           ),
-                          SizedBox(height: 8,),
-                          !mobileDecoration?Container(
-                            padding: EdgeInsets.only(left: 15),
-                            child: Text(
-                              "Please Enter Valid Mobile No",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.red
-                              ),
-                            ),
-                          ):
-                          SizedBox(height: 0,),
-                          SizedBox(height: 15.0,),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          !mobileDecoration
+                              ? Container(
+                                  padding: EdgeInsets.only(left: 15),
+                                  child: Text(
+                                    "Please Enter Valid Mobile No",
+                                    style: TextStyle(
+                                        fontSize: 14, color: Colors.red),
+                                  ),
+                                )
+                              : SizedBox(
+                                  height: 0,
+                                ),
+                          SizedBox(
+                            height: 15.0,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               RaisedButton(
-                                onPressed: (){
-                                  if(valid){
+                                onPressed: () {
+                                  if (valid) {
                                     goToVerifyOtpScreen();
                                   }
                                 },
-                                color:mobileColorChanger(),
+                                color: mobileColorChanger(),
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0)
-                                ),
+                                    borderRadius: BorderRadius.circular(20.0)),
                                 child: Row(
                                   children: <Widget>[
                                     Text("Next"),
@@ -186,38 +185,35 @@ class _LoginByMobileState extends State<LoginByMobile> {
                                     Container(
                                       decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Colors.white
-                                      ),
-                                      child: Icon(
-                                          Icons.arrow_forward
-                                      ),
+                                          color: Colors.white),
+                                      child: Icon(Icons.arrow_forward),
                                     )
-
                                   ],
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(height:10),
+                          SizedBox(height: 10),
                           Row(
                             children: <Widget>[
                               Expanded(
                                 child: Container(
-                                  margin: EdgeInsets.only(left:10.0,right:20.0),
+                                  margin:
+                                      EdgeInsets.only(left: 10.0, right: 20.0),
                                   child: Divider(
                                     height: 50,
                                     color: Colors.grey,
                                   ),
                                 ),
                               ),
-                              Text("OR",
-                                style: TextStyle(
-                                    color: Colors.grey
-                                ),
+                              Text(
+                                "OR",
+                                style: TextStyle(color: Colors.grey),
                               ),
                               Expanded(
                                 child: Container(
-                                  margin: EdgeInsets.only(left:20.0,right:10.0),
+                                  margin:
+                                      EdgeInsets.only(left: 20.0, right: 10.0),
                                   child: Divider(
                                     height: 50,
                                     color: Colors.grey,
@@ -234,16 +230,14 @@ class _LoginByMobileState extends State<LoginByMobile> {
                                   Navigator.pushReplacementNamed(context, UiPagesPath.REGISTER);
                                 },
                                 color: Colors.teal[500],
-                                child: Text(
-                                    "Sign Up"
-                                ),
+                                child: Text("Sign Up"),
                               ),
                             ],
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(height:20.0),
+                    SizedBox(height: 20.0),
                   ],
                 ),
               ),
@@ -261,23 +255,49 @@ class _LoginByMobileState extends State<LoginByMobile> {
           //            Icons.gradient,
           //          )
           //        ),
-        )
-    );
+        ));
   }
+
   goToVerifyOtpScreen() {
     LoginRegisterController lg = new LoginRegisterController();
     lg.LoginByMobileNoOtp("+918120387578").then((value) {
-      Map<String,dynamic> nextPagePayload = value['data'];
+      Map<String, dynamic> nextPagePayload = value['data'];
       nextPagePayload['previousPage'] = UiPagesPath.LOGIN_BY_MOBILE;
       nextPagePayload['mobileNo'] = mobile.phoneNumber;
       print(nextPagePayload);
       print(value['nextPage']);
-      Navigator.pushNamed(context, value['nextPage'],arguments: nextPagePayload);
-    }
-    ).catchError((onError) {
-     Navigator.pushNamedAndRemoveUntil(context, UiPagesPath.AWW_SNAP, (route) => false);
+      Navigator.pushNamed(context, value['nextPage'],
+          arguments: nextPagePayload);
+    }).catchError((onError) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, UiPagesPath.AWW_SNAP, (route) => false);
       print("Ooops something terrible happend");
+    });
+  }
+
+  doInitialCheckup() async {
+    //get hash stored locally
+    String userHash = await GetLocalData.GetUserHash();
+    print("user has is =" + userHash);
+    if (userHash.isEmpty) {
+      //if userHash is empty then continue with the login
+      return;
+    } else {
+      //do an authorize call
+      LoginRegisterController lg = new LoginRegisterController();
+      await lg.Authorize(userHash).then((value) {
+        print("inside authorize call");
+        Map<String, dynamic> nextPagePayload = value['data'];
+        String nextPage = value['nextPage'];
+        Navigator.pushNamedAndRemoveUntil(context, nextPage, (route) => false,
+            arguments: nextPagePayload);
+      }).catchError((onError) {
+        print("errore happend");
+        Navigator.pushNamedAndRemoveUntil(
+            context, UiPagesPath.AWW_SNAP, (route) => false,
+            arguments: onError);
+        print("Ooops something terrible happend");
+      });
     }
-    );
   }
 }
