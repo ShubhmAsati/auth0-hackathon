@@ -6,4 +6,10 @@ class UiPagesPath {
   static String USER_HOME_PAGE = '/v1/user-home-page';
   static String APP_OPENING = '/v1/app-open';
   static String VERIFY_REGISTER_OTP = '/v1/register/verify-otp';
+  static String MY_JOBS = '/v1/my-jobs';
+  static String ADD_JOB = '/v1/add-job';
+  static String ADD_JOB_ADDRESS = '/v1/add-address';
+  static String MY_PROFILE = '/v1/my-profile';
+  static String UPDATE_JOB = '/v1/update-job';
+  static String UPDATE_ADDRESS = '/v1/update-address';
 }

@@ -1,4 +1,10 @@
 import 'package:covid_19_job/const/ui_pages.dart';
+import 'package:covid_19_job/pages/add_update_job/add_address.dart';
+import 'package:covid_19_job/pages/add_update_job/add_job.dart';
+import 'package:covid_19_job/pages/add_update_job/update_address.dart';
+import 'package:covid_19_job/pages/add_update_job/update_job.dart';
+import 'package:covid_19_job/pages/jobs/home_page_job.dart';
+import 'package:covid_19_job/pages/jobs/my-jobs.dart';
 import 'package:covid_19_job/pages/login_by_mobile/app_opening.dart';
 import 'package:covid_19_job/pages/login_by_mobile/verify-otp.dart';
 import 'package:covid_19_job/pages/register_user/register.dart';
@@ -9,6 +15,7 @@ import 'package:flutter/services.dart';
 import 'package:covid_19_job/pages/login_by_mobile/login_by_mobile.dart';
 import 'package:covid_19_job/pages/errors/aww_snap.dart';
 import 'package:covid_19_job/utils/get_devide_info.dart';
+import 'package:covid_19_job/pages/users/users.dart';
 
 
 void main() {
@@ -24,6 +31,13 @@ void main() {
       UiPagesPath.REGISTER : (context) => Register(),
       UiPagesPath.VERIFY_REGISTER_OTP: (context) => VerifyOtp(),
       UiPagesPath.VERIFY_LOGIN_OTP: (context) => VerifyLoginOtp(),
+      UiPagesPath.USER_HOME_PAGE: (context)=> JobSearchHomePage(),
+      UiPagesPath.MY_JOBS : (context) => MyJobs(),
+      UiPagesPath.ADD_JOB: (context)=>AddJob(),
+      UiPagesPath.ADD_JOB_ADDRESS: (context)=>AddAddress(),
+      UiPagesPath.UPDATE_JOB : (context) => UpdateJob(),
+      UiPagesPath.UPDATE_ADDRESS : (context) => UpdateAddress(),
+      UiPagesPath.MY_PROFILE : (context) => Users(),
       '/testing' : (context) => Testing(),
     },
   ));
