@@ -63,6 +63,11 @@ public class RegistrationController {
         OTP_SUCCESS_MESSAGE));
   }
 
+  @GetMapping("/is-backed-running")
+  public ResponseEntity<String> test(){
+    return ResponseEntity.ok("Yes I am running!!");
+  }
+
   private JobPortalResponse buildJobPortalResponse(UUID userId, String message) {
     return JobPortalResponse.builder()
         .userId(userId)
