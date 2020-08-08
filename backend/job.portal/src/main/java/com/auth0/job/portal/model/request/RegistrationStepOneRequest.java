@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 public class RegistrationStepOneRequest {
 
+  @NotBlank(message = "mobileNumber should not be null or blank")
   @Pattern(message = ERR_MSG_INVALID_PHONE_NUMBER, regexp = PHONE_NUMBER_VALIDATION_REGEX)
   private String mobileNumber;
 
