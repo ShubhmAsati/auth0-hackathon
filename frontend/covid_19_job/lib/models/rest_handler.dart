@@ -11,7 +11,7 @@ class ResponseHandler {
   }
 
   Error getError() {
-    return this.error;
+    return this.error.metadata['errorMessage'];
   }
 
   Map<String, dynamic> getResponse() {

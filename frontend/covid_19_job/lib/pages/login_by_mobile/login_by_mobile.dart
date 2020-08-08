@@ -20,18 +20,16 @@ class _LoginByMobileState extends State<LoginByMobile> {
   Color mobileColor;
   bool mobileDecoration;
   PhoneNumber mobile;
-
+  Progress p;
   Color mobileColorChanger() {
     return valid ? Colors.teal[500] : Colors.grey;
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     valid = false;
     mobileDecoration = true;
-    doInitialCheckup();
   }
 
   @override
@@ -273,31 +271,5 @@ class _LoginByMobileState extends State<LoginByMobile> {
           context, UiPagesPath.AWW_SNAP, (route) => false);
       print("Ooops something terrible happend");
     });
-  }
-
-  doInitialCheckup() async {
-    //get hash stored locally
-    String userHash = await GetLocalData.GetUserHash();
-    print("user has is =" + userHash);
-    if (userHash.isEmpty) {
-      //if userHash is empty then continue with the login
-      return;
-    } else {
-      //do an authorize call
-      LoginRegisterController lg = new LoginRegisterController();
-      await lg.Authorize(userHash).then((value) {
-        print("inside authorize call");
-        Map<String, dynamic> nextPagePayload = value['data'];
-        String nextPage = value['nextPage'];
-        Navigator.pushNamedAndRemoveUntil(context, nextPage, (route) => false,
-            arguments: nextPagePayload);
-      }).catchError((onError) {
-        print("errore happend");
-        Navigator.pushNamedAndRemoveUntil(
-            context, UiPagesPath.AWW_SNAP, (route) => false,
-            arguments: onError);
-        print("Ooops something terrible happend");
-      });
-    }
   }
 }

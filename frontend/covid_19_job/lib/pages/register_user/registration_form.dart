@@ -541,7 +541,10 @@ class _RegisterFormState extends State<RegisterForm> {
     };
 //    p.pr.show();
     rg.registerUser(userDetails).then((value){
-      if(value["errorMsg"].toString().isEmpty){
+      String nextPage = value['nextPage'];
+      if (nextPage.isEmpty){
+        widget.callback(false,value['error']);
+      }else{
         widget.callback(true,"Success");
         Map<String,dynamic> nextPagePayload = value;
         nextPagePayload["mobileNo"] = mobile.phoneNumber;
@@ -549,9 +552,6 @@ class _RegisterFormState extends State<RegisterForm> {
         Navigator.pushNamed(widget.parentContext,value["nextPage"],arguments: {
           "nextPagePayload" : nextPagePayload
         });
-      }
-      else{
-        widget.callback(false,"Error");
       }
     }
     ).catchError((err){

@@ -1,4 +1,5 @@
 import 'package:covid_19_job/const/ui_pages.dart';
+import 'package:covid_19_job/pages/login_by_mobile/app_opening.dart';
 import 'package:covid_19_job/pages/register_user/register.dart';
 import 'package:covid_19_job/testing/test.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,9 @@ void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   initialSetup();
   runApp(MaterialApp(
-    initialRoute: UiPagesPath.LOGIN_BY_MOBILE,
+    initialRoute: UiPagesPath.APP_OPENING,
     routes: {
+      UiPagesPath.APP_OPENING : (context) =>AppOpening(),
       UiPagesPath.LOGIN_BY_MOBILE: (context) => LoginByMobile(),
       UiPagesPath.AWW_SNAP : (context) => AwwSnap(),
       UiPagesPath.REGISTER : (context) => Register(),
