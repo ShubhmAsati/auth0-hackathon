@@ -1,5 +1,6 @@
 import 'package:covid_19_job/const/ui_pages.dart';
 import 'package:covid_19_job/pages/login_by_mobile/app_opening.dart';
+import 'package:covid_19_job/pages/login_by_mobile/verify-otp.dart';
 import 'package:covid_19_job/pages/register_user/register.dart';
 import 'package:covid_19_job/pages/register_user/verify_otp.dart';
 import 'package:covid_19_job/testing/test.dart';
@@ -22,6 +23,7 @@ void main() {
       UiPagesPath.AWW_SNAP : (context) => AwwSnap(),
       UiPagesPath.REGISTER : (context) => Register(),
       UiPagesPath.VERIFY_REGISTER_OTP: (context) => VerifyOtp(),
+      UiPagesPath.VERIFY_LOGIN_OTP: (context) => VerifyLoginOtp(),
       '/testing' : (context) => Testing(),
     },
   ));

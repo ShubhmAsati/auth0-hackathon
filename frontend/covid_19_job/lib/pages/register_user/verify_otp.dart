@@ -50,7 +50,7 @@ class ScaffoldWidget extends StatefulWidget {
 
 class _ScaffoldWidgetState extends State<ScaffoldWidget> {
   var dataFromPreviousPage;
-  int _startTime = 20;
+  int _startTime = 120;
   countDownTimer() async {
     for (int x = _startTime; x > 0; x--) {
       await Future.delayed(Duration(seconds: 1)).then((_) {
@@ -646,7 +646,7 @@ class _ScaffoldWidgetState extends State<ScaffoldWidget> {
 
   resetOtp() {
     setState(() {
-      _startTime = 20;
+      _startTime = 120;
     });
     countDownTimer();
     RegisterController rg = new RegisterController();

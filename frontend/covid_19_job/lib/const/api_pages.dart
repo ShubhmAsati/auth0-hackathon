@@ -7,5 +7,7 @@ class ApiPath{
   static String STEP_ONE = "step-one";
   static String AUTHORIZE = 'authorize';
   static String VERIFY_REGISTER_OTP = 'verify-otp';
+  static String VERIFY_LOGIN_OTP = 'verify-otp';
   static String RESEND_REGISTER_OTP = 'resend-otp';
+  static String RESEND_LOGIN_OTP = 'resend-otp';
 }

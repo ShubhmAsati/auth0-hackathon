@@ -258,15 +258,23 @@ class _LoginByMobileState extends State<LoginByMobile> {
 
   goToVerifyOtpScreen() {
     LoginRegisterController lg = new LoginRegisterController();
-    lg.LoginByMobileNoOtp("+918120387578").then((value) {
-      Map<String, dynamic> nextPagePayload = value['data'];
-      nextPagePayload['previousPage'] = UiPagesPath.LOGIN_BY_MOBILE;
-      nextPagePayload['mobileNo'] = mobile.phoneNumber;
-      print(nextPagePayload);
-      print(value['nextPage']);
-      Navigator.pushNamed(context, value['nextPage'],
-          arguments: nextPagePayload);
+    lg.LoginByMobileNoOtp(mobile.phoneNumber).then((value) {
+
+      if (value['error'].toString().isEmpty){
+        Map<String, dynamic> nextPagePayload = value['data'];
+        nextPagePayload['previousPage'] = UiPagesPath.LOGIN_BY_MOBILE;
+        nextPagePayload['mobileNo'] = mobile.phoneNumber;
+        print(nextPagePayload);
+        Navigator.pushNamed(context, value['nextPage'],
+            arguments: nextPagePayload);
+      }else{
+        Navigator.pushNamedAndRemoveUntil(context, value['nextPage'],(route) => false);
+      }
+
+
+
     }).catchError((onError) {
+      print(onError);
       Navigator.pushNamedAndRemoveUntil(
           context, UiPagesPath.AWW_SNAP, (route) => false);
       print("Ooops something terrible happend");
