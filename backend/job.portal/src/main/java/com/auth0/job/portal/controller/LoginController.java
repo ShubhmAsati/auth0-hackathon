@@ -3,18 +3,21 @@ package com.auth0.job.portal.controller;
 import static com.auth0.job.portal.constants.ApplicationConstants.CONTEXT_URL;
 import static com.auth0.job.portal.constants.ApplicationConstants.OTP_SUCCESS_MESSAGE;
 import static com.auth0.job.portal.constants.ApplicationConstants.RESET_PASSWORD_MESSAGE;
+import static com.auth0.job.portal.constants.ApplicationConstants.SESSION;
 import static com.auth0.job.portal.constants.ApplicationConstants.VERIFIED_OTP_MESSAGE;
 import static com.auth0.job.portal.converter.OTPRequestConverter.toDto;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
+import com.auth0.job.portal.model.UserDto;
 import com.auth0.job.portal.model.request.LoginRequest;
 import com.auth0.job.portal.model.request.ResendOtpRequest;
 import com.auth0.job.portal.model.request.ResetPasswordRequest;
 import com.auth0.job.portal.model.request.VerifyOTPRequest;
 import com.auth0.job.portal.model.response.JobPortalResponse;
 import com.auth0.job.portal.service.LoginService;
+import com.auth0.job.portal.service.SessionManager;
 import com.auth0.job.portal.util.JwtUtil;
 import com.auth0.job.portal.validator.RequestValidator;
 import java.util.UUID;
@@ -37,6 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
   private final LoginService loginService;
+  private final SessionManager sessionManager;
   private final RequestValidator requestValidator;
   private final JwtUtil jwtUtil;
 
@@ -51,10 +55,13 @@ public class LoginController {
   @PostMapping("/v1/login-by-password")
   public ResponseEntity<JobPortalResponse> loginByPassword(
       @Valid @RequestBody LoginRequest loginRequest) {
-    UUID userId = loginService
+    UserDto userDto = loginService
         .loginByPassword(loginRequest.getMobileNumber(), loginRequest.getPassword());
     return ResponseEntity.status(HttpStatus.OK).headers(
-        httpHeaders -> httpHeaders.add(AUTHORIZATION, jwtUtil.generateToken(userId.toString())))
+        httpHeaders -> {
+          httpHeaders.add(AUTHORIZATION, jwtUtil.generateToken(userDto.getUserId().toString()));
+          httpHeaders.add(SESSION, sessionManager.generateSession(userDto));
+        })
         .body(buildJobPortalResponse(null, VERIFIED_OTP_MESSAGE));
   }
 
@@ -62,9 +69,12 @@ public class LoginController {
   public ResponseEntity<JobPortalResponse> verifyOTP(
       @Valid @RequestBody VerifyOTPRequest verifyOTPRequest,
       @RequestParam(value = "isLoginOTP") Boolean isLoginOTP) {
-    UUID userId = loginService.verifyOTP(toDto(verifyOTPRequest), isLoginOTP);
+    UserDto userDto = loginService.verifyOTP(toDto(verifyOTPRequest), isLoginOTP);
     return ResponseEntity.status(HttpStatus.OK).headers(
-        httpHeaders -> httpHeaders.add(AUTHORIZATION, jwtUtil.generateToken(userId.toString())))
+        httpHeaders -> {
+          httpHeaders.add(AUTHORIZATION, jwtUtil.generateToken(userDto.getUserId().toString()));
+          httpHeaders.add(SESSION, sessionManager.generateSession(userDto));
+        })
         .body(buildJobPortalResponse(null, VERIFIED_OTP_MESSAGE));
   }
 
@@ -91,6 +101,13 @@ public class LoginController {
     return ResponseEntity.ok().body(
         buildJobPortalResponse(loginService.resendOTP(resendOtpRequest.getUserId(), newRequired),
             OTP_SUCCESS_MESSAGE));
+  }
+
+  @GetMapping("/v1/login-by-session-id")
+  public ResponseEntity<?> loginByUserHash(@RequestHeader(SESSION) String sessionId){
+    return ResponseEntity.status(HttpStatus.OK).headers(
+        httpHeaders -> httpHeaders.add(AUTHORIZATION, jwtUtil.generateToken(loginService.loginBySessionId(sessionId))))
+        .body(buildJobPortalResponse(null, "user logged in successfully"));
   }
 
   private JobPortalResponse buildJobPortalResponse(UUID userId, String message) {

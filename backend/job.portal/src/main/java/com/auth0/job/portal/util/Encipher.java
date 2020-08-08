@@ -1,6 +1,6 @@
 package com.auth0.job.portal.util;
 
-import com.auth0.job.portal.validator.UUID;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -21,8 +21,8 @@ public class Encipher {
     return passwordEncoder.matches(password, encodedPassword);
   }
 
-  public String generateUserHash(UUID user, String mobileNumber){
-    return passwordEncoder.encode(user.toString() + SECRET + mobileNumber);
+  public String generateUserHash(UUID userId, String mobileNumber) {
+    return passwordEncoder.encode(userId.toString() + SECRET + mobileNumber);
   }
 
 

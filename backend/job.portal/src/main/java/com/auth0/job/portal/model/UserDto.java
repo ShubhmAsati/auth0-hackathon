@@ -18,6 +18,8 @@ public class UserDto {
 
   private Boolean isActive;
 
+  private Boolean isVerified;
+
   private UserDetailsDto userDetailsDto;
 
 }

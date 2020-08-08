@@ -12,6 +12,7 @@ import com.auth0.job.portal.exception.ValidationsException;
 import com.auth0.job.portal.model.OTPDto;
 import com.auth0.job.portal.model.OtpDetailsDto;
 import com.auth0.job.portal.model.UserDto;
+import com.auth0.job.portal.repository.SessionRepository;
 import com.auth0.job.portal.repository.UserRepository;
 import com.auth0.job.portal.util.Encipher;
 import com.auth0.job.portal.util.JwtUtil;
@@ -27,6 +28,7 @@ public class LoginService {
   private final OTPService otpService;
   private final Encipher encipher;
   private final JwtUtil jwtUtil;
+  private final SessionRepository sessionRepository;
 
   public UUID login(String mobileNumber, Boolean isLoginOTP) {
     UserDto userDto = userRepository.findUserByMobileNumber(mobileNumber);
@@ -40,20 +42,20 @@ public class LoginService {
     return userDto.getUserId();
   }
 
-  public UUID loginByPassword(String mobileNumber, String password) {
+  public UserDto loginByPassword(String mobileNumber, String password) {
     UserDto userDto = userRepository.findUserByMobileNumber(mobileNumber);
     if (encipher.matches(password, userDto.getPassword())) {
-      return userDto.getUserId();
+      return userDto;
     }
     throw new ValidationsException(ERR_MSG_INVALID_PASSWORD);
   }
 
-  public UUID verifyOTP(OTPDto otpDto, Boolean isLoginOTP) {
+  public UserDto verifyOTP(OTPDto otpDto, Boolean isLoginOTP) {
     OtpDetailsDto otpDetailsDto = otpService.validateOtp(otpDto, LOGIN);
     if (isLoginOTP ^ otpDetailsDto.getIsLoginOTP()) {
       throw new InvalidOTPException(ERR_MSG_INVALID_OTP);
     }
-    return userRepository.findUserById(otpDto.getUserId()).getUserId();
+    return userRepository.findUserById(otpDto.getUserId());
   }
 
   public void resetPassword(String password, String token) {
@@ -67,5 +69,9 @@ public class LoginService {
     UserDto userDto = userRepository.findUserById(fromString(userId));
     otpService.resendOTP(userDto.getUserId(), userDto.getMobileNumber(), newRequired, LOGIN);
     return userDto.getUserId();
+  }
+
+  public String loginBySessionId(String sessionId) {
+    return sessionRepository.getSessionById(sessionId).getUserId().toString();
   }
 }

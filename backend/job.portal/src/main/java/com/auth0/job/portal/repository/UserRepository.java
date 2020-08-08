@@ -21,6 +21,10 @@ public class UserRepository {
         .orElseThrow(() -> new NotFoundException("User does not exist.")));
   }
 
+  public Boolean isUserExist(String mobileNumber) {
+    return jpaUsersRepository.findByMobileNumber(mobileNumber).isPresent();
+  }
+
   public UserDto findUserById(UUID userId) {
     return toUserDto(jpaUsersRepository.findById(userId)
         .orElseThrow(() -> new NotFoundException("User does not exist.")));

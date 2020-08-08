@@ -4,7 +4,7 @@ import static java.lang.Boolean.FALSE;
 
 import com.auth0.job.portal.entity.ParkedUserEntity;
 import com.auth0.job.portal.model.ParkedUserDto;
-import com.auth0.job.portal.model.request.RegistrationStepOneRequest;
+import com.auth0.job.portal.model.request.RegisterUserRequest;
 import com.auth0.job.portal.model.response.JobPortalResponse;
 import com.auth0.job.portal.util.Encipher;
 import lombok.RequiredArgsConstructor;
@@ -12,16 +12,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ParkedUserConverter {
+public class RegisterRequestConverter {
 
   private final Encipher encipher;
 
-  public ParkedUserDto toParkedUserDto(RegistrationStepOneRequest registrationStepOneRequest) {
+  public ParkedUserDto toParkedUserDto(RegisterUserRequest registerUserRequest) {
     return ParkedUserDto.builder()
-        .mobileNumber(registrationStepOneRequest.getMobileNumber())
-        .password(encipher.encrypt(registrationStepOneRequest.getPassword()))
-        .firstName(registrationStepOneRequest.getFirstName())
-        .lastName(registrationStepOneRequest.getLastName())
+        .mobileNumber(registerUserRequest.getMobileNumber())
+        .password(encipher.encrypt(registerUserRequest.getPassword()))
+        .firstName(registerUserRequest.getFirstName())
+        .lastName(registerUserRequest.getLastName())
         .isVerified(FALSE)
         .build();
   }

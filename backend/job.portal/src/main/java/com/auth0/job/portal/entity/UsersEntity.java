@@ -39,6 +39,9 @@ public class UsersEntity extends BaseEntity {
   @Column(name = "is_active")
   private Boolean isActive;
 
+  @Column(name = "is_verified")
+  private Boolean isVerified;
+
   @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "user_details_id", referencedColumnName = "id")
   private UserDetailsEntity userDetailsEntity;
