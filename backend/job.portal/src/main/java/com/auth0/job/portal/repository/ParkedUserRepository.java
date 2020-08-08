@@ -2,7 +2,7 @@ package com.auth0.job.portal.repository;
 
 import com.auth0.job.portal.converter.ParkedUserConverter;
 import com.auth0.job.portal.entity.ParkedUserEntity;
-import com.auth0.job.portal.exception.EntityAlreadyExistException;
+import com.auth0.job.portal.exception.UserAlreadyExistException;
 import com.auth0.job.portal.exception.NotFoundException;
 import com.auth0.job.portal.model.ParkedUserDto;
 import com.auth0.job.portal.repository.jpa.JpaParkedUserRepository;
@@ -30,7 +30,7 @@ public class ParkedUserRepository {
 
   private UUID validateUserAndReturnUserId(ParkedUserDto parkedUserDto) {
     if (jpaUsersRepository.findByMobileNumber(parkedUserDto.getMobileNumber()).isPresent()) {
-      throw new EntityAlreadyExistException("User exist, cannot update the entity.");
+      throw new UserAlreadyExistException("User exist, cannot update the entity.");
     }
     ParkedUserEntity parkedUserEntity = jpaParkedUserRepository
         .findByMobileNumber(parkedUserDto.getMobileNumber()).orElse(null);

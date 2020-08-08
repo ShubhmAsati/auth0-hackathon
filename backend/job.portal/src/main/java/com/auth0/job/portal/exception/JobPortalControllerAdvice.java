@@ -54,11 +54,11 @@ public class JobPortalControllerAdvice {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(buildErrorResponse(e.getMessage()));
   }
 
-  @ExceptionHandler(EntityAlreadyExistException.class)
+  @ExceptionHandler(UserAlreadyExistException.class)
   public ResponseEntity<ErrorResponse> handleEntityAlreadyExistException(
-      EntityAlreadyExistException e) {
+      UserAlreadyExistException e) {
     log.info(VALIDATION_ERROR, e);
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(buildErrorResponse(e.getMessage()));
+    return ResponseEntity.status(HttpStatus.CONFLICT).body(buildErrorResponse(e.getMessage()));
   }
 
   private ErrorResponse buildErrorResponse(String message) {
