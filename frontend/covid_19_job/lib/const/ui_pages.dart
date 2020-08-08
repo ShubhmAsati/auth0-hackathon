@@ -4,4 +4,6 @@ class UiPagesPath {
   static String AWW_SNAP = '/v1/aww-snap';
   static String REGISTER = '/v1/register';
   static String USER_HOME_PAGE = '/v1/user-home-page';
+  static String APP_OPENING = '/v1/app-open';
+  static String VERIFY_REGISTER_OTP = '/v1/register/verify-otp';
 }

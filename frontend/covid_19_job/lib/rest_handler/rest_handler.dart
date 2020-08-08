@@ -9,7 +9,7 @@ import 'dart:core';
 const int httpStatusOk = 200;
 const int httpStatusBadRequest = 400;
 const int httpUnknownRequest = 503;
-const String hostPath = 'localhost:8081';
+const String hostPath = '10.0.2.2:8081';
 const JOB_PORTAL = "jobPortal";
 const LOGIN = "login";
 const APIVERSIONV1 = "v1";
@@ -40,6 +40,7 @@ class RestHandler {
             errorCode: Error.unableToProcess,
             errMsg: Error.unableToProcessMsg,
             metadata: error);
+        print(error);
         ResponseHandler resp = ResponseHandler(
             response: null, httpStatus: response.statusCode, error: err);
         return resp;
@@ -86,11 +87,10 @@ class RestHandler {
       // var uri =
       //    Uri.https('www.myurl.com', '/api/v1/test/${widget.pk}', queryParameters);
       var url = Uri.http(hostPath, apiPath, queryParams);
-
+      print(url);
       http.Response response =
           await http.post(url, headers: headers, body: body);
-      print(response.statusCode);
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         Map result;
         if (response.body.isNotEmpty) {
           result = jsonDecode(response.body);
@@ -103,6 +103,7 @@ class RestHandler {
         return resp;
       } else if (response.statusCode >= 400 && response.statusCode < 500) {
         Map error = jsonDecode(response.body);
+        print(error);
         Error err = Error(
             errorCode: Error.unableToProcess,
             errMsg: Error.unableToProcessMsg,

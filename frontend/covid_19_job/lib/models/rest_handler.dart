@@ -10,8 +10,8 @@ class ResponseHandler {
     return this.httpStatus;
   }
 
-  Error getError() {
-    return this.error;
+  String getError() {
+    return this.error.metadata['errorMessage'].toString();
   }
 
   Map<String, dynamic> getResponse() {
