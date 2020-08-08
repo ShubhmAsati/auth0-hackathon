@@ -1,4 +1,4 @@
-package com.auth0.job.portal.config.security;
+package com.auth0.job.portal.config.security.config;
 
 import com.auth0.job.portal.filter.JwtFilter;
 import com.auth0.job.portal.service.SecureUserService;
@@ -43,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.csrf().disable().authorizeRequests().antMatchers(
+        "/jobPortal/register/**",
         "/v2/api-docs",
         "/swagger-resources",
         "/swagger-resources/**",

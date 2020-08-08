@@ -22,6 +22,5 @@ public class Address {
 
   private String landmark;
 
-  private GeoLocationDto geoLocationDto;
 
 }

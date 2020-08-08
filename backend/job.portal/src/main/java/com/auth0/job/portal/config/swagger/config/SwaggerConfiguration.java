@@ -1,4 +1,4 @@
-package com.auth0.job.portal.config.swaggerConfig;
+package com.auth0.job.portal.config.swagger.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
