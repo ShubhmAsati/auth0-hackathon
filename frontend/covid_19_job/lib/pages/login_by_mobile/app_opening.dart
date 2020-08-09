@@ -50,7 +50,7 @@ class _AppOpeningState extends State<AppOpening> {
       }).catchError((onError) {
         print("error happend");
         Navigator.pushNamedAndRemoveUntil(
-            context, UiPagesPath.AWW_SNAP, (route) => false,
+            context, UiPagesPath.LOGIN_BY_MOBILE, (route) => false,
             arguments: onError);
         print("Ooops something terrible happend");
       });

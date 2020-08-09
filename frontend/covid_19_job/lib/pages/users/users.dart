@@ -351,6 +351,7 @@ class _UsersState extends State<Users> {
                                       child: TextFormField(
                                           controller: pincodeController,
                                           textInputAction: TextInputAction.next,
+                                          keyboardType: TextInputType.number,
                                           focusNode: pincodeFocus,
                                           onFieldSubmitted: (value) {
                                             Utils.fieldFocusChange(

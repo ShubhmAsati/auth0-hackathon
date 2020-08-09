@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+//import 'package:mobile_number/mobile_number.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class JobCard extends StatefulWidget {
@@ -14,6 +15,7 @@ class JobCard extends StatefulWidget {
 class _JobCardState extends State<JobCard> {
   Map<String, String> jobData;
   _JobCardState({this.jobData});
+
 
   @override
   Widget build(BuildContext context) {
@@ -118,49 +120,67 @@ class _JobCardState extends State<JobCard> {
                   )
               ),
             ),
-            Flexible(
-              child: Container(
-                height: size.height*.1,
-                child: ButtonBar(
-                  alignment: MainAxisAlignment.spaceEvenly,
+//            Flexible(
+//              flex: 10,
+//              child: Container(
+//                height: size.height*.1,
+//                child: ButtonBar(
+//                  alignment: MainAxisAlignment.spaceEvenly,
+                Row(
                   children: [
-                    FlatButton(
-                        child:Text(
-                            'Expected price/perday'
-                        )
+                    Expanded(
+                      flex: 5,
+                      child: FlatButton(
+                          child:Text(
+                              'Expected price/perday'
+                          )
+                      ),
                     ),
-                    FlatButton(
-                        onPressed: (){
-                          openMap('40.7128', '74.0060');
-                        },
-                        child: Icon(
-                            Icons.location_on,
-                            semanticLabel:'Check location on map'
-                        )
+                    Expanded(
+                      flex: 1,
+                      child: FlatButton(
+                          onPressed: (){
+                            openMap('40.7128', '74.0060');
+                          },
+                          child: Icon(
+                              Icons.location_on,
+                              semanticLabel:'Check location on map'
+                          )
+                      ),
                     ),
-                    FlatButton(
-                        onPressed: (){},
-                        child: Text(
-                            'Accept',
-                            style: TextStyle(
-                                color: Colors.green
-                            )
-                        )
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        width: 0,
+                      ),
                     ),
-                    FlatButton(
-                        onPressed: (){},
-                        child: Text(
-                            'Reject',
-                            style: TextStyle(
-                                color: Colors.red
-                            )
-                        )
+                    Expanded(
+                      flex: 3,
+                      child: FlatButton(
+                          onPressed: makePhoneCall,
+                          child: Text(
+                              'Accept',
+                              style: TextStyle(
+                                  color: Colors.green
+                              )
+                          )
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: FlatButton(
+                          onPressed: (){},
+                          child: Text(
+                              'Reject',
+                              style: TextStyle(
+                                  color: Colors.red
+                              )
+                          )
+                      ),
                     ),
 
 
                   ],
-                ),
-              ),
             )
           ],
         ),
@@ -173,6 +193,17 @@ class _JobCardState extends State<JobCard> {
       await launch(googleUrl);
     } else {
       print('Could not open the map.');
+    }
+  }
+
+  makePhoneCall() async{
+    const url = 'tel:+918074436269';
+    print(url);
+    if(await canLaunch(url)){
+      await launch(url);
+    }
+    else{
+      throw 'Could not launch url';
     }
   }
 }
