@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:covid_19_job/utils/current_location.dart';
+import 'package:covid_19_job/pages/add_update_job/add_update_job_controller.dart';
 
 class AddAddressScafold extends StatefulWidget {
   dynamic dataFromPreviousPage;
@@ -532,5 +533,7 @@ class _AddAddressScafoldState extends State<AddAddressScafold> {
     payLoad['address'] = _addressController.text;
     print(payLoad);
     print("hello");
+    JobsController jc = new JobsController();
+    jc.addJob(payLoad);
   }
 }

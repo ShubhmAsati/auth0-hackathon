@@ -5,6 +5,7 @@ import 'package:covid_19_job/models/error.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:core';
+import 'dart:io';
 
 const int httpStatusOk = 200;
 const int httpStatusBadRequest = 400;
@@ -23,6 +24,7 @@ class RestHandler {
       var url = Uri.http(hostPath, apiPath, queryParams);
       print(url);
       http.Response response = await http.get(url, headers: headers);
+      print(response.headers);
       if (response.statusCode == 200) {
         Map<String, dynamic> result;
         if (response.body.isNotEmpty) {
@@ -90,6 +92,7 @@ class RestHandler {
       print(url);
       http.Response response =
           await http.post(url, headers: headers, body: body);
+      print(response.headers);
       if (response.statusCode == 200 || response.statusCode == 201) {
         Map result;
         if (response.body.isNotEmpty) {
@@ -151,7 +154,7 @@ class RestHandler {
     try {
       // var uri =
       //    Uri.https('www.myurl.com', '/api/v1/test/${widget.pk}', queryParameters);
-      var url = Uri.https(hostPath, apiPath, queryParams);
+      var url = Uri.http(hostPath, apiPath, queryParams);
 
       http.Response response =
           await http.put(url, headers: headers, body: body);
@@ -210,7 +213,7 @@ class RestHandler {
     try {
       // var uri =
       //    Uri.https('www.myurl.com', '/api/v1/test/${widget.pk}', queryParameters);
-      var url = Uri.https(hostPath, apiPath, queryParams);
+      var url = Uri.http(hostPath, apiPath, queryParams);
 
       http.Response response = await http.delete(url, headers: headers);
       if (response.statusCode == 200) {
@@ -261,5 +264,24 @@ class RestHandler {
           response: null, httpStatus: httpUnknownRequest, error: err);
       return resp;
     }
+  }
+
+  Future<Set<String>> uploadImage(
+      String apiPath, Map<String, String> headers, File file) async {
+    var url = Uri.http(hostPath, apiPath);
+    var request = http.MultipartRequest("POST", url);
+    //add text fields
+    //request.fields["text_field"] = text;
+    //create multipart using filepath, string or bytes
+    var pic = await http.MultipartFile.fromPath("image", file.path);
+    //add multipart to request
+    request.files.add(pic);
+    request.headers.addAll(headers);
+    var response = await request.send();
+    print(response.statusCode);
+    //Get the response from the server
+    var responseData = await response.stream.toBytes();
+    var responseString = String.fromCharCodes(responseData);
+    print(responseString);
   }
 }

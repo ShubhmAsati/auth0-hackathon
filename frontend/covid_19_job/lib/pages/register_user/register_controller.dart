@@ -10,9 +10,10 @@ import 'package:path/path.dart' as path;
 class RegisterController{
   RegisterController();
   Future<Map<String,dynamic>> registerUser(Map<String,dynamic> userDetails) async{
-    String apiPath = path.join(ApiPath.JOB_PORTAL,ApiPath.REGISTER,ApiPath.APIVERSIONV1,ApiPath.STEP_ONE);
+    String apiPath = path.join(ApiPath.JOB_PORTAL,ApiPath.REGISTER,ApiPath.APIVERSIONV1,ApiPath.REGISTER_USER);
     Map<String,String> headers = {
-      'Content-Type' : 'application/json; charset=UTF-8'
+      'Content-Type' : 'application/json; charset=UTF-8',
+      'device-id' : GetDeviceInfo.DeviceId,
     };
     String body = json.encode(userDetails);
     print(body);
@@ -23,7 +24,9 @@ class RegisterController{
       return {
         "nextPage" : UiPagesPath.USER_HOME_PAGE,
         "data" : response.getResponse(),
-        "error" : ""
+        "error" : "",
+        "session" : response.getHeader('session'),
+        "authorization" : response.getHeader('authorization'),
       };
     }else if (response.getHttpCode() == 400){
       // any validation error

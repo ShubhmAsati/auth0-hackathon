@@ -38,10 +38,10 @@ class LoginRegisterController {
     }
   }
   Future<Map<String, dynamic>> Authorize(String userHash) async {
-    String apiPath = path.join(ApiPath.JOB_PORTAL,
-        ApiPath.APIVERSIONV1,ApiPath.AUTHORIZE);
+    String apiPath = path.join(ApiPath.JOB_PORTAL,ApiPath.LOGIN,
+        ApiPath.APIVERSIONV1,ApiPath.LOGIN_BY_SESSION_ID);
     Map<String,String> headers = {
-      'user-hash': userHash,
+      'session': userHash,
        'device-id' : GetDeviceInfo.DeviceId,
     };
     ResponseHandler response = await RestHandler.syncGet(apiPath, null, headers);
@@ -49,7 +49,8 @@ class LoginRegisterController {
       print(response.getResponse());
       return {
         "nextPage": UiPagesPath.USER_HOME_PAGE,
-        "data": response.getResponse()
+        "data": response.getResponse(),
+        "authorization": response.getHeader('authorization'),
       };
     } else if (response.getHttpCode() == 400) {
       //user is not registered go to register page

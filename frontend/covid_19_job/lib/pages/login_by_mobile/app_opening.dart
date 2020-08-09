@@ -1,3 +1,4 @@
+import 'package:covid_19_job/utils/jwt_token.dart';
 import 'package:flutter/material.dart';
 import 'package:covid_19_job/utils/get_local_data.dart';
 import 'package:covid_19_job/pages/login_by_mobile/login_by_mobile_controller.dart';
@@ -41,10 +42,13 @@ class _AppOpeningState extends State<AppOpening> {
         print("inside authorize call");
         Map<String, dynamic> nextPagePayload = value['data'];
         String nextPage = value['nextPage'];
-        Navigator.pushNamedAndRemoveUntil(context, nextPage, (route) => false,
-            arguments: nextPagePayload);
+        print(value['authorization']);
+        nextPagePayload['authorization'] = value['authorization'];
+        JWTTOKEN.token = value['authorization'];
+        Navigator.pushNamedAndRemoveUntil(
+            context, value['nextPage'], (route) => false,arguments: nextPagePayload);
       }).catchError((onError) {
-        print("errore happend");
+        print("error happend");
         Navigator.pushNamedAndRemoveUntil(
             context, UiPagesPath.AWW_SNAP, (route) => false,
             arguments: onError);

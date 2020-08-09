@@ -23,7 +23,7 @@ void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   initialSetup();
   runApp(MaterialApp(
-    initialRoute: UiPagesPath.ADD_JOB,
+    initialRoute: UiPagesPath.APP_OPENING,
     routes: {
       UiPagesPath.APP_OPENING : (context) =>AppOpening(),
       UiPagesPath.LOGIN_BY_MOBILE: (context) => LoginByMobile(),

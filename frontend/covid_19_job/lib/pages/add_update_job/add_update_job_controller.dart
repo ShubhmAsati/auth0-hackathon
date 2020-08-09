@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:covid_19_job/models/rest_handler.dart';
 import 'package:covid_19_job/utils/get_devide_info.dart';
 import 'package:covid_19_job/rest_handler/rest_handler.dart';
+import 'package:covid_19_job/utils/jwt_token.dart';
 import 'package:http/http.dart';
 import 'package:path/path.dart' as path;
 import 'package:covid_19_job/const/api_pages.dart';
@@ -16,8 +17,10 @@ class JobsController{
     Map<String,String> headers = {
       'Content-Type' : 'application/json; charset=UTF-8',
       'device-id' : GetDeviceInfo.DeviceId,
+      'authorization': JWTTOKEN.token,
     };
     print(requestPayload);
+    print(headers);
     ResponseHandler response = await RestHandler.syncPost(apiPath, null, headers, requestPayload);
     print(response.getHttpCode());
     if (response.getHttpCode() == 200){

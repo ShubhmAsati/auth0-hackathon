@@ -5,7 +5,9 @@ class ResponseHandler {
   Map<String, String> headers;
   int httpStatus;
   Error error;
+
   ResponseHandler({this.response, this.headers, this.httpStatus, this.error});
+
   int getHttpCode() {
     return this.httpStatus;
   }
@@ -20,5 +22,15 @@ class ResponseHandler {
 
   String getErrorMessageShownToUser() {
     return error.metadata['error'];
+  }
+
+  String getHeader(key) {
+    try {
+      String val = headers[key];
+      print(val);
+      return val;
+    } catch (e) {
+      return '';
+    }
   }
 }

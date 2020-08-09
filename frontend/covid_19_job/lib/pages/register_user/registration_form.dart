@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:covid_19_job/const/ui_pages.dart';
 import 'package:covid_19_job/pages/progess_loader/progress_loader.dart';
 import 'package:covid_19_job/pages/register_user/register_controller.dart';
+import 'package:covid_19_job/utils/get_local_data.dart';
+import 'package:covid_19_job/utils/jwt_token.dart';
 import 'package:covid_19_job/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -450,48 +452,6 @@ class _RegisterFormState extends State<RegisterForm> {
     }
   }
 
-  goToVerifyOtpScreen() async {
-    RegisterController rg = RegisterController();
-    Map<String, dynamic> userDetails = {
-      "firstName": firstNameController.text,
-      "lastName": lastNameController.text,
-      "mobileNumber": mobile.phoneNumber,
-      "password": passwordController.text
-    };
-//    p.pr.show();
-    rg.registerUser(userDetails).then((value) {
-      String nextPage = value['nextPage'];
-      if (nextPage.isEmpty) {
-        widget.callback(false, value['error']);
-      } else {
-        if (value['error'].toString().isEmpty) {
-          widget.callback(true, "Success");
-          Map<String, dynamic> nextPagePayload;
-          nextPagePayload = value['data'];
-          nextPagePayload["previousPage"] = UiPagesPath.REGISTER;
-          nextPagePayload['mobileNo'] = mobile.phoneNumber;
-          print(value['nextPage']);
-          Navigator.pushNamedAndRemoveUntil(
-              widget.parentContext, value["nextPage"], (route) => false,
-              arguments: nextPagePayload);
-        } else {
-          Map<String, dynamic> nextPagePayload = {};
-          nextPagePayload["previousPage"] = UiPagesPath.REGISTER;
-          widget.callback(false, value['error']);
-          Navigator.pushNamedAndRemoveUntil(widget.parentContext,
-              UiPagesPath.USER_HOME_PAGE, (route) => false);
-        }
-      }
-    }).catchError((err) {
-      print(err);
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        UiPagesPath.AWW_SNAP,
-        (route) => false,
-      );
-    });
-  }
-
   goToHomePage() {
     RegisterController rg = RegisterController();
     Map<String, dynamic> userDetails = {
@@ -507,11 +467,15 @@ class _RegisterFormState extends State<RegisterForm> {
         widget.callback(false, value['error']);
       } else {
         if (value['error'].toString().isEmpty) {
+          //successpath
           widget.callback(true, "Success");
           Map<String, dynamic> nextPagePayload;
           nextPagePayload = value['data'];
           nextPagePayload["previousPage"] = UiPagesPath.REGISTER;
           nextPagePayload['mobileNo'] = mobile.phoneNumber;
+          nextPagePayload['authorization'] = value['authorization'];
+          JWTTOKEN.token = value['authorization'];
+          GetLocalData.AddHash(value['session']);
           Navigator.pushNamedAndRemoveUntil(
               widget.parentContext, value["nextPage"], (route) => false,
               arguments: nextPagePayload);
