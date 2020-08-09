@@ -17,5 +17,8 @@ class ApiPath{
   static String LOGIN_BY_PASSWORD = "login-by-password";
   static String FORGOT_PASSWORD = "forgot-password";
   static String RESET_PASSWORD = "reset-password";
-  static String JOB_TYPES = 'job-types';
+  static String JOB_TYPES = 'get-job-types';
+  static String IMAGES = 'images';
+  static String UPLOAD_IMAGE = 'upload-image';
+  static String ADD_JOB = 'post-job';
 }

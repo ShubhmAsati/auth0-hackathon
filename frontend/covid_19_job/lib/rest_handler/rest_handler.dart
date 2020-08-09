@@ -266,22 +266,31 @@ class RestHandler {
     }
   }
 
-  Future<Set<String>> uploadImage(
+  static Future<Set<String>> UploadImage(
       String apiPath, Map<String, String> headers, File file) async {
-    var url = Uri.http(hostPath, apiPath);
-    var request = http.MultipartRequest("POST", url);
-    //add text fields
-    //request.fields["text_field"] = text;
-    //create multipart using filepath, string or bytes
-    var pic = await http.MultipartFile.fromPath("image", file.path);
-    //add multipart to request
-    request.files.add(pic);
-    request.headers.addAll(headers);
-    var response = await request.send();
-    print(response.statusCode);
+    try {
+      var url = Uri.http(hostPath, apiPath);
+      var request = http.MultipartRequest("POST", url);
+      //add text fields
+      //request.fields["text_field"] = text;
+      //create multipart using filepath, string or bytes
+      var pic = await http.MultipartFile.fromPath("image", file.path);
+      //add multipart to request
+      request.files.add(pic);
+      request.headers.addAll(headers);
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        var responseData = await response.stream.toBytes();
+        var responseString = String.fromCharCodes(responseData);
+        Map resp = json.decode(responseString);
+        return {resp['imageUrl'],''};
+      } else {
+        return {'', 'Error uploading image'};
+      }
+    } catch (er) {
+      print(er);
+      return {'', er.toString()};
+    }
     //Get the response from the server
-    var responseData = await response.stream.toBytes();
-    var responseString = String.fromCharCodes(responseData);
-    print(responseString);
   }
 }

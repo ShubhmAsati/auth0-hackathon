@@ -7,77 +7,83 @@ import 'package:http/http.dart';
 import 'package:path/path.dart' as path;
 import 'package:covid_19_job/const/api_pages.dart';
 import 'package:covid_19_job/const/ui_pages.dart';
+import 'dart:io';
 
-class JobsController{
+class JobsController {
   JobsController();
 
-
-  Future<Map<String,dynamic>> addJob(Map<String,dynamic> requestPayload) async{
-    String apiPath = path.join(ApiPath.JOB_PORTAL,ApiPath.JOB,ApiPath.APIVERSIONV1);
-    Map<String,String> headers = {
-      'Content-Type' : 'application/json; charset=UTF-8',
-      'device-id' : GetDeviceInfo.DeviceId,
-      'authorization': JWTTOKEN.token,
+  Future<Map<String, dynamic>> addJob(
+      Map<String, dynamic> requestPayload) async {
+    String apiPath =
+        path.join(ApiPath.ADD_JOB);
+    Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'device-id': GetDeviceInfo.DeviceId,
+      'authorization': 'Bearer ' + JWTTOKEN.token,
     };
-    print(requestPayload);
+    String body = jsonEncode(requestPayload);
     print(headers);
-    ResponseHandler response = await RestHandler.syncPost(apiPath, null, headers, requestPayload);
+    print(body);
+    ResponseHandler response =
+        await RestHandler.syncPost(apiPath, null, headers, body);
     print(response.getHttpCode());
-    if (response.getHttpCode() == 200){
+    print(response);
+    if (response.getHttpCode() == 200) {
       return {
-        "nextPage" : UiPagesPath.MY_JOBS,
-        "data" : response.getResponse(),
-        "error" : ""
+        "nextPage": UiPagesPath.MY_JOBS,
+        "data": response.getResponse(),
+        "error": ""
       };
-    }else if (response.getHttpCode() == 400){
+    } else if (response.getHttpCode() == 400) {
       //some validation error
       return {
-        "nextPage" : '',
+        "nextPage": '',
         "data": response.getResponse(),
-        "error" : response.getError(),
+        "error": response.getError(),
       };
-    }else if(response.getHttpCode() == 404){
+    } else if (response.getHttpCode() == 404) {
       return {
-        "nextPage" : UiPagesPath.AWW_SNAP,
+        "nextPage": UiPagesPath.AWW_SNAP,
         "data": response.getResponse(),
-        "error" : response.getError(),
+        "error": response.getError(),
       };
-    }else{
-      throw(response);
+    } else {
+      throw (response);
     }
   }
 
-  Future<Map<String,dynamic>> getJobTypes() async{
-    String apiPath = path.join(ApiPath.JOB_PORTAL,ApiPath.JOB,ApiPath.APIVERSIONV1,ApiPath.JOB_TYPES);
-    Map<String,String> headers = {
-      'Content-Type' : 'application/json; charset=UTF-8',
-      'device-id' : GetDeviceInfo.DeviceId,
+  Future<Map<String, dynamic>> getJobTypes() async {
+    String apiPath =
+        path.join(ApiPath.IMAGES, ApiPath.APIVERSIONV1, ApiPath.JOB_TYPES);
+    Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'device-id': GetDeviceInfo.DeviceId,
       'authorization': JWTTOKEN.token,
     };
     print(headers);
-    ResponseHandler response = await RestHandler.syncGet(apiPath, null, headers);
+    ResponseHandler response =
+        await RestHandler.syncGet(apiPath, null, headers);
     print(response.getHttpCode());
-    if (response.getHttpCode() == 200){
-      return {
-        "nextPage" : UiPagesPath.MY_JOBS,
-        "data" : response.getResponse(),
-        "error" : ""
-      };
-    }else if (response.getHttpCode() == 400){
-      //some validation error
-      return {
-        "nextPage" : '',
-        "data": response.getResponse(),
-        "error" : response.getError(),
-      };
-    }else if(response.getHttpCode() == 404){
-      return {
-        "nextPage" : UiPagesPath.AWW_SNAP,
-        "data": response.getResponse(),
-        "error" : response.getError(),
-      };
-    }else{
-      throw(response);
+    print(response.getResponse());
+    if (response.getHttpCode() == 200) {
+      return {"nextPage": '', "data": response.getResponse(), "error": ""};
+    } else {
+      throw response;
     }
+  }
+
+  Future<Set<String>> uploadImage(File image) async {
+    String apiPath =
+        path.join(ApiPath.IMAGES, ApiPath.APIVERSIONV1, ApiPath.UPLOAD_IMAGE);
+    Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'device-id': GetDeviceInfo.DeviceId,
+      'authorization': JWTTOKEN.token,
+    };
+    print(headers);
+    Set<String> response =
+        await RestHandler.UploadImage(apiPath, headers, image);
+
+    return response;
   }
 }
