@@ -19,6 +19,7 @@ public class ApplicationConstants {
   public static final String RESET_PASSWORD_MESSAGE = "Your password has been reset successfully!";
   public static final String REGISTRATION_SUCCESS_MESSAGE = "User registered successfully!";
   public static final String SESSION = "Session";
+  public static final String TEMP_DIR = "java.io.tmpdir";
 
 
 }

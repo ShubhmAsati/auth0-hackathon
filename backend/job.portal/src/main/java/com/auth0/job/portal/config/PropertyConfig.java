@@ -26,4 +26,19 @@ public class PropertyConfig {
   @Value("${job.portal.google.geolocation.api.key}")
   private String apiKey;
 
+  @Value("${job.portal.amazon.aws.endpointUrl}")
+  private String endpointUrl;
+
+  @Value("${job.portal.amazon.aws.bucketName}")
+  private String bucketName;
+
+  @Value("${job.portal.amazon.aws.accessKey}")
+  private String accessKey;
+
+  @Value("${job.portal.amazon.aws.secretKey}")
+  private String secretKey;
+
+  @Value("${job.portal.file.path.images}")
+  private String imagePath;
+
 }
