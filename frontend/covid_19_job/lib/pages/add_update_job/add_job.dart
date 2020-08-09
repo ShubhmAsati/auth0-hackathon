@@ -1,4 +1,5 @@
 import 'package:covid_19_job/const/ui_pages.dart';
+import 'package:covid_19_job/models/rest_handler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:covid_19_job/utils/bottom_navigator.dart';
@@ -8,6 +9,9 @@ import 'package:covid_19_job/pages/add_update_job/add_address.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:covid_19_job/utils/utils.dart';
+import 'package:covid_19_job/pages/add_update_job/add_update_job_controller.dart';
+import 'dart:io';
+
 
 class AddJob extends StatefulWidget {
   @override
@@ -17,6 +21,7 @@ class AddJob extends StatefulWidget {
 class _AddJobState extends State<AddJob> {
   final _formKey = GlobalKey<FormState>();
   final List<DropdownMenuItem> items = [];
+  String imagePath = '';
   //this is also job type controller
   TextEditingController _dropDownController = new TextEditingController();
   TextEditingController _jobDescriptionController = new TextEditingController();
@@ -52,8 +57,7 @@ class _AddJobState extends State<AddJob> {
   @override
   void initState() {
     super.initState();
-    jobs = getMatchingJobs('filterBy');
-    List<String> l = getMatchingJobs('');
+    getMatchingJobs();
     _dropDownController.addListener(() {
       if (_dropDownController.text.length > 4 &&
           !jobs.contains(_dropDownController.text)) {
@@ -64,8 +68,12 @@ class _AddJobState extends State<AddJob> {
 
   @override
   void dispose() {
-    super.dispose();
+
     _dropDownController.dispose();
+    _jobDescriptionController.dispose();
+    _startLimitController.dispose();
+    _endLimitController.dispose();
+    super.dispose();
   }
 
   getSearchJobTypeDropDown() {
@@ -330,8 +338,23 @@ class _AddJobState extends State<AddJob> {
     );
   }
 
-  List<String> getMatchingJobs(String filterBy) {
-    return ['first', 'second', 'third', 'fourth'];
+  Future<List<String>> getMatchingJobs() async{
+    JobsController jb = new JobsController();
+
+    jb.getJobTypes().then((value){
+      print(value);
+      print(value['data']);
+        List<String>jobTypes = new List<String>.from(value['data']['jobTypes']);
+        setState(() {
+          this.jobs = jobTypes;
+        });
+    }).catchError((error){
+      setState(() {
+        print(error);
+        this.jobs = ['Plumber', 'Carpenter' , 'Maid'];
+      });
+    });
+
   }
 
   void goToAddAddress() {
@@ -339,10 +362,10 @@ class _AddJobState extends State<AddJob> {
     'jobType' : _dropDownController.text,
     'jobDescriptions' : _jobDescriptionController.text,
     'wageTiming' : _dropDownWages,
-    'wageStartLimit' : _startLimitController.text,
-    'wageEndLimit' : _endLimitController.text,
+    'wageLowLimit' : _startLimitController.text,
+    'wageHighLimit' : _endLimitController.text,
     'gender' : gender[selectedRadio],
-    'imagePath' : 'imagePath'
+    'imagePath' : imagePath,
     };
     Navigator.pushNamed(context, UiPagesPath.ADD_JOB_ADDRESS, arguments: nextPagePayload);
     return;
@@ -355,6 +378,15 @@ class _AddJobState extends State<AddJob> {
       );
       setState(() {
         _imageFile = pickedFile;
+        print(_imageFile.path);
+        String imageType = _imageFile.path.split('.').last;
+        print(imageType);
+        if(imageType != 'jpeg' && imageType != 'jpg' && imageType != 'png'){
+          showAlertDialogInInvalidImage(context);
+          clearImage();
+        }else{
+          uploadImage();
+        }
       });
     } catch (e) {
       print(e);
@@ -376,7 +408,7 @@ class _AddJobState extends State<AddJob> {
         ),
         child: FlatButton(
             onPressed: (){
-              _imageButtonPressed(ImageSource.gallery);
+              _imageButtonPressed(ImageSource.gallery,context: context);
             },
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -439,6 +471,80 @@ class _AddJobState extends State<AddJob> {
         content: Text("Validation failed"),
       ));
     }
+  }
+  showAlertDialogInInvalidImage(BuildContext context) {
+   print("inside show alert box");
+   print(context);
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Invalid image"),
+      content: Text("Only allow jpg, jpeg, png ."),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  uploadImage() async{
+    print("uploading image");
+    JobsController jb = new JobsController();
+  jb.uploadImage(File(_imageFile.path)).then((value){
+    if (value.elementAt(0).isEmpty){
+      ErrorUploadingImage(context,value.elementAt(1));
+      clearImage();
+    }else{
+      this.imagePath = value.elementAt(0);
+    }
+    }).catchError((onError){
+    ErrorUploadingImage(context,onError.toString());
+    clearImage();
+   });
+
+  }
+
+  ErrorUploadingImage(BuildContext context,msg) {
+    print("inside show alert box");
+    print(context);
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("try again"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Error uploading image"),
+      content: Text(msg),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }
 

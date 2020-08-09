@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class JobCard extends StatefulWidget {
   Map<String, String> jobData;
@@ -129,7 +130,9 @@ class _JobCardState extends State<JobCard> {
                         )
                     ),
                     FlatButton(
-                        onPressed: (){},
+                        onPressed: (){
+                          openMap('40.7128', '74.0060');
+                        },
                         child: Icon(
                             Icons.location_on,
                             semanticLabel:'Check location on map'
@@ -163,5 +166,13 @@ class _JobCardState extends State<JobCard> {
         ),
       ),
     );
+  }
+  openMap(String latitude, String longitude) async {
+    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    if (await canLaunch(googleUrl)) {
+      await launch(googleUrl);
+    } else {
+      print('Could not open the map.');
+    }
   }
 }

@@ -24,7 +24,7 @@ public class PropertyConfig {
   private Integer otpResendCount;
 
   @Value("${job.portal.google.geolocation.api.key}")
-  private String apiKey;
+  private String geoCodingApiKey;
 
   @Value("${job.portal.amazon.aws.endpointUrl}")
   private String endpointUrl;

@@ -91,19 +91,19 @@ class _BottomNavigatorState extends State<BottomNavigator> {
   }
   void goToJobSearchScreen(){
     Map <String,String> m = {"name": "shubham"};
-    Navigator.pushNamed(context,UiPagesPath.USER_HOME_PAGE,arguments: m);
+    Navigator.pushNamedAndRemoveUntil(context, UiPagesPath.USER_HOME_PAGE, (route) => false);
     return;
   }
 
   void goToUsers(){
     Map <String,String> m = {"name": "shubham"};
-    Navigator.pushNamed(context,UiPagesPath.MY_PROFILE,arguments: m);
+    Navigator.pushNamedAndRemoveUntil(context, UiPagesPath.MY_PROFILE, (route) => false);
     return;
   }
 
   void goToAddJob(){
     Map <String,String> m = {"name": "shubham"};
-    Navigator.pushNamed(context,UiPagesPath.ADD_JOB,arguments: m);
+    Navigator.pushNamedAndRemoveUntil(context, UiPagesPath.ADD_JOB, (route) => false);
     return;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:covid_19_job/const/ui_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:covid_19_job/utils/current_location.dart';
@@ -521,19 +522,32 @@ class _AddAddressScafoldState extends State<AddAddressScafold> {
 
   addJob() {
     Map<String, String> payLoad = dataFromPreviousPage;
+    payLoad['addressLine1'] = _addressController.text;
+    payLoad['alternateMobileNumber'] = _alternateMobileNoController.text;
+    payLoad['city'] = _cityController.text;
+    payLoad['contactPerson'] = _contactPersonController.text;
     payLoad['lat'] = lat;
     payLoad['lng'] = lng;
-    payLoad['alternateMobileNumber'] = _alternateMobileNoController.text;
-    payLoad['contactPerson'] = _contactPersonController.text;
-    payLoad['pincode'] = _pincodeController.text;
-    payLoad['city'] = _cityController.text;
+    payLoad['pinCode'] = _pincodeController.text;
     payLoad['state'] = _stateController.text;
     payLoad['country'] = _countryController.text;
     payLoad['landmark'] = _landmarkController.text;
-    payLoad['address'] = _addressController.text;
-    print(payLoad);
-    print("hello");
+
     JobsController jc = new JobsController();
-    jc.addJob(payLoad);
+    jc.addJob(payLoad).then((value) {
+       if(value['error'].toString().isEmpty){
+           showSnackBar(Colors.green, 'Job added successfully', context);
+           Navigator.pushNamedAndRemoveUntil(context, UiPagesPath.MY_JOBS, (route) => false);
+       }else{
+         if(value['nextPage'].toString().isEmpty){
+           showSnackBar(Colors.red, value['error'], context);
+         }else{
+           Navigator.pushNamedAndRemoveUntil(context, value['nextPage'], (route) => false);
+         }
+       }
+    }).catchError((onError){
+      print(onError);
+      Navigator.pushNamedAndRemoveUntil(context, UiPagesPath.AWW_SNAP, (route) => false);
+    });
   }
 }
