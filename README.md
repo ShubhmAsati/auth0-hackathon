@@ -40,4 +40,5 @@ In the after COVID world where contacting with other folks will still be dangero
 
 ## Register
    Please fill out these details to create an account.
+   <img src="https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/register.jpeg" width="100" height="100">
    ![register Screen ](https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/register.jpeg)
