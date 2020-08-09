@@ -112,4 +112,111 @@ class JobsController{
       throw(response);
     }
   }
+
+  Future<Map<String,dynamic>> GetHomePageJobs(Set<double> latlng) async{
+    String apiPath = path.join(ApiPath.JOB_PORTAL,ApiPath.APIVERSIONV1,ApiPath.HOME_PAGE_JOB_LIST);
+    Map<String,String> headers = {
+      HttpHeaders.authorizationHeader: "Bearer ${JWTTOKEN.token}",
+      "deviceId" : GetDeviceInfo.DeviceId,
+    };
+    double lat = latlng.elementAt(0);
+    double lng = latlng.elementAt(1);
+    Map<String,String> queryParams = {
+      'lat' : '$lat',
+      'lng' : '$lng',
+    };
+    ResponseHandler response = await RestHandler.syncGet(apiPath, queryParams, headers);
+    if(response.getHttpCode() == 200){
+      return {
+        "nextPage" : "",
+        "data" : response.getResponse(),
+        "error" : ""
+      };
+    }
+    else if(response.getHttpCode() == 400){
+      return {
+        "nextPage" : "",
+        "data" : response.getResponse(),
+        "error" : response.getError()
+      };
+    }
+    else if(response.getHttpCode() == 404){
+      return {
+        "nextPage" : UiPagesPath.AWW_SNAP,
+        "data" : response.getResponse(),
+        "error" : ""
+      };
+    }
+    else{
+      throw(response);
+    }
+  }
+
+  Future<Map<String,dynamic>> GetJobBySeachCriteria(Map<String,String> requestPayload) async{
+    String apiPath = path.join(ApiPath.JOB_PORTAL,ApiPath.APIVERSIONV1,ApiPath.JOB);
+    Map<String,String> headers = {
+      HttpHeaders.authorizationHeader: "Bearer ${JWTTOKEN.token}",
+      "deviceId" : GetDeviceInfo.DeviceId,
+    };
+    String body = json.encode(requestPayload);
+    print(body);
+    ResponseHandler response = await RestHandler.syncPost(apiPath, null, headers,body);
+    if(response.getHttpCode() == 200){
+      return {
+        "nextPage" : "",
+        "data" : response.getResponse(),
+        "error" : ""
+      };
+    }
+    else if(response.getHttpCode() == 400){
+      return {
+        "nextPage" : "",
+        "data" : response.getResponse(),
+        "error" : response.getError()
+      };
+    }
+    else if(response.getHttpCode() == 404){
+      return {
+        "nextPage" : UiPagesPath.AWW_SNAP,
+        "data" : response.getResponse(),
+        "error" : ""
+      };
+    }
+    else{
+      throw(response);
+    }
+  }
+
+  Future<Map<String,dynamic>> GetMyJobs() async{
+    String apiPath = path.join(ApiPath.JOB_PORTAL,ApiPath.APIVERSIONV1,ApiPath.GET_MY_JOBS);
+    Map<String,String> headers = {
+      HttpHeaders.authorizationHeader: "Bearer ${JWTTOKEN.token}",
+      "deviceId" : GetDeviceInfo.DeviceId,
+    };
+    ResponseHandler response = await RestHandler.syncGet(apiPath, null, headers);
+    if(response.getHttpCode() == 200){
+      return {
+        "nextPage" : "",
+        "data" : response.getResponse(),
+        "error" : ""
+      };
+    }
+    else if(response.getHttpCode() == 400){
+      return {
+        "nextPage" : "",
+        "data" : response.getResponse(),
+        "error" : response.getError()
+      };
+    }
+    else if(response.getHttpCode() == 404){
+      return {
+        "nextPage" : UiPagesPath.AWW_SNAP,
+        "data" : response.getResponse(),
+        "error" : ""
+      };
+    }
+    else{
+      throw(response);
+    }
+  }
 }
