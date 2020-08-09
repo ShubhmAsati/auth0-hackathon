@@ -3,12 +3,16 @@ package com.auth0.job.portal.service;
 import static java.util.UUID.fromString;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
 
+import com.auth0.job.portal.enums.UserType;
 import com.auth0.job.portal.model.UserDto;
 import com.auth0.job.portal.repository.UserRepository;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -62,5 +66,15 @@ public class UserService {
 
   public UserDto getUserById(String userId) {
     return userRepository.findUserById(fromString(userId));
+  }
+
+  public void setUserType(UserType userType, String userId) {
+    UserDto userDto = userRepository.findUserById(fromString(userId));
+    userDto.setUserType(userType);
+    userRepository.saveUser(userDto);
+  }
+
+  public List<UserDto> findUserByIds(List<UUID> userIds) {
+    return userRepository.findUserByIds(userIds);
   }
 }

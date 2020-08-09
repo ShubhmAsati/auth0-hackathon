@@ -1,9 +1,12 @@
 package com.auth0.job.portal.entity;
 
+import com.auth0.job.portal.enums.UserType;
 import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,8 +36,9 @@ public class UsersEntity extends BaseEntity {
 
   private String password;
 
+  @Enumerated(EnumType.ORDINAL)
   @Column(name = "user_type")
-  private String userType;
+  private UserType userType;
 
   @Column(name = "is_active")
   private Boolean isActive;

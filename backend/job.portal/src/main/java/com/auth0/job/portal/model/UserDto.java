@@ -1,5 +1,6 @@
 package com.auth0.job.portal.model;
 
+import com.auth0.job.portal.enums.UserType;
 import java.util.UUID;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,7 @@ public class UserDto {
 
   private String password;
 
-  private String userType;
+  private UserType userType;
 
   private Boolean isActive;
 

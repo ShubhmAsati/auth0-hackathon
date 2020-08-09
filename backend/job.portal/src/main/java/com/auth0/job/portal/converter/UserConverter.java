@@ -17,7 +17,6 @@ import com.auth0.job.portal.model.response.AddressResponse;
 import com.auth0.job.portal.model.response.JobPortalResponse;
 import com.auth0.job.portal.model.response.UserDetailsResponse;
 import com.auth0.job.portal.model.response.UserResponse;
-import java.util.UUID;
 
 public class UserConverter {
 
@@ -31,6 +30,7 @@ public class UserConverter {
         .mobileNumber(usersEntity.getMobileNumber())
         .password(usersEntity.getPassword())
         .isActive(usersEntity.getIsActive())
+        .isVerified(usersEntity.getIsVerified())
         .userDetailsDto(buildUserDetailDto(usersEntity.getUserDetailsEntity()))
         .build();
   }
@@ -41,7 +41,9 @@ public class UserConverter {
         .firstName(userDetailsEntity.getFirstName())
         .lastName(userDetailsEntity.getLastName())
         .email(userDetailsEntity.getEmail())
-        .address(userDetailsEntity.getAddress()!=null?buildAddressDto(userDetailsEntity.getAddress()):null)
+        .address(
+            userDetailsEntity.getAddress() != null ? buildAddressDto(userDetailsEntity.getAddress())
+                : null)
         .build();
   }
 
@@ -109,7 +111,9 @@ public class UserConverter {
         .email(userDetailsDto.getEmail())
         .firstName(userDetailsDto.getFirstName())
         .lastName(userDetailsDto.getLastName())
-        .address(userDetailsDto.getAddress()!=null?buildAddressEntity(userDetailsDto.getAddress()):new AddressEntity())
+        .address(
+            userDetailsDto.getAddress() != null ? buildAddressEntity(userDetailsDto.getAddress())
+                : new AddressEntity())
         .build();
   }
 
@@ -128,7 +132,7 @@ public class UserConverter {
   public static UserResponse toUserResponse(UserDto userDto) {
     return UserResponse.builder()
         .mobileNumber(userDto.getMobileNumber())
-        .userType(userDto.getUserType())
+        .userType(userDto.getUserType().name())
         .userDetails(buildUserDetailsResponse(userDto.getUserDetailsDto()))
         .build();
   }
@@ -157,7 +161,7 @@ public class UserConverter {
     return JobPortalResponse.builder().userId(parkedUserDto.getTempUserId()).build();
   }
 
-  public static UserDto toUserDto(UserRequest userRequest, String userId){
+  public static UserDto toUserDto(UserRequest userRequest, String userId) {
     return UserDto.builder()
         .userId(fromString(userId))
         .mobileNumber(userRequest.getMobileNumber())
@@ -180,7 +184,8 @@ public class UserConverter {
         .city(userRequest.getCity())
         .country(userRequest.getCountry())
         .landmark(userRequest.getLandmark())
-        .pinCode(userRequest.getPinCode() != null? Integer.valueOf(userRequest.getPinCode()): null)
+        .pinCode(
+            userRequest.getPinCode() != null ? Integer.valueOf(userRequest.getPinCode()) : null)
         .state(userRequest.getState())
         .build();
   }
