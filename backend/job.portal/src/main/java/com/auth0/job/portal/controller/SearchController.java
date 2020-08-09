@@ -27,21 +27,23 @@ public class SearchController {
     @GetMapping("/jobs")
     public ResponseEntity<?> getJobs
             ( @RequestHeader(AUTHORIZATION) String token,
-              @RequestParam("searchLocationLat") Optional<Double> latitude,
-              @RequestParam("searchLocationLng")Optional<Double> longitude,
-              @RequestParam("locality")Optional<String> area,
-              @RequestParam("city")Optional<String> city,
-              @RequestParam("jobType")Optional<String> jobType,
-              @RequestParam("radius")Optional<Integer> radius){
+              @RequestParam(value = "searchLocationLat",required = false) Optional<Double> latitude,
+              @RequestParam(value="searchLocationLng",required = false)Optional<Double> longitude,
+              @RequestParam(value="locality",required = false)Optional<String> area,
+              @RequestParam(value="city",required = false)Optional<String> city,
+              @RequestParam(value="jobType",required = false)Optional<String> jobType,
+              @RequestParam(value="radius",required = false)Optional<Integer> radius){
         if(latitude.isPresent() && longitude.isPresent())
             return ResponseEntity.status(HttpStatus.FOUND)
-                    .body(geoLocatorService.getJobsByCoordinates(UUID.fromString(jwtUtil.extractUserId(token)),latitude.get(),longitude.get(),
-
+                    .body(geoLocatorService.getJobsByCoordinates(UUID.fromString(jwtUtil.extractUserId(token)),
+                            latitude.get(),longitude.get(),
+                            jobType.orElse(""),
                             radius.orElse(ApplicationConstants.DEFAULT_RADIUS)));
         else if(area.isPresent() || city.isPresent())
             return ResponseEntity.status(HttpStatus.FOUND)
                     .body(geoLocatorService.getJobsByLocation(UUID.fromString(jwtUtil.extractUserId(token)),
                             area.orElse(city.get()),city.orElse(area.get()),
+                            jobType.orElse(""),
                             radius.orElse(ApplicationConstants.DEFAULT_RADIUS)));
 
 
@@ -51,12 +53,12 @@ public class SearchController {
     @GetMapping("/users")
     public ResponseEntity<?> getUsers
             ( @RequestHeader(AUTHORIZATION) String token,
-              @RequestParam("latitude") Optional<Double> latitude,
-              @RequestParam("longitude")Optional<Double> longitude,
-              @RequestParam("area")Optional<String> area,
-              @RequestParam("city")Optional<String> city,
-              @RequestParam("radius")Optional<Integer> radius,
-              @RequestParam("type")Optional<String> type){
+              @RequestParam(value="latitude",required = false) Optional<Double> latitude,
+              @RequestParam(value="longitude",required = false)Optional<Double> longitude,
+              @RequestParam(value="area",required = false)Optional<String> area,
+              @RequestParam(value="city",required = false)Optional<String> city,
+              @RequestParam(value="radius",required = false)Optional<Integer> radius,
+              @RequestParam(value="type",required = false)Optional<String> type){
         if(latitude.isPresent() && longitude.isPresent())
             return ResponseEntity.status(HttpStatus.FOUND)
                     .body(geoLocatorService.getUsersByCoordinates(UUID.fromString(jwtUtil.extractUserId(token)),

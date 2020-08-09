@@ -1,13 +1,16 @@
 package com.auth0.job.portal.repository;
 
-import com.auth0.job.portal.constants.ApplicationConstants;
+
+import com.auth0.job.portal.entity.GeoLocationEntity;
 import com.auth0.job.portal.enums.TypesEnum;
 import com.auth0.job.portal.repository.jpa.JpaGeoLocationRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,13 +18,37 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class GeoLocationRepository {
 
+    @Autowired
+    EntityManager entityManager;
+
     private final JpaGeoLocationRepository jpaGeoLocationRepository;
 
-    public List<UUID> getObjectsByCoordinatesAndTypePerPage(Double latitude, Double longitude, double[] latLongs, TypesEnum type){
+    public List<UUID> getObjectsByCoordinatesAndType(Double latitude, Double longitude, Double[] latLongs, TypesEnum type
+                                                            ){
 
-         return jpaGeoLocationRepository.getObjectsByCoordinatesAndTypePerPage
-                (latitude,longitude,latLongs[0],latLongs[1],latLongs[2],latLongs[3],type);
+//          jpaGeoLocationRepository.getObjectsByCoordinatesAndTypePerPage
+//                (latitude,longitude,latLongs[0],latLongs[1],latLongs[2],latLongs[3],type.toString());
+        List<UUID> ids=new LinkedList<>();
 
+         entityManager.createNativeQuery("SELECT * FROM JOB_PORTAL.GEO_LOCATION WHERE OBJECT_TYPE= :type AND "+
+                "(LATITUDE BETWEEN :latMin AND :latMax) AND (LONGITUDE BETWEEN :longMin AND :longMax)"+
+                " AND LATITUDE!= :lat AND LONGITUDE!= :lng  ",GeoLocationEntity.class)
+         .setParameter("type",type.toString()).setParameter("lat",latitude).setParameter("lng",longitude)
+         .setParameter("latMax",latLongs[0]).setParameter("longMax",latLongs[1]).setParameter("latMin",latLongs[2])
+         .setParameter("longMin",latLongs[3]).getResultList().forEach((a)->{
+             GeoLocationEntity b=(GeoLocationEntity)a;
+             ids.add(b.getObjectID());
+                 });
+//        System.out.println("|->>>>>");
+//        System.out.println(ids);
+//        System.out.println("|->>>>>");
+        return ids;
+
+
+    }
+
+    public GeoLocationEntity saveLoc(GeoLocationEntity geoLocationEntity){
+        return jpaGeoLocationRepository.save(geoLocationEntity);
     }
 
 

@@ -3,7 +3,9 @@ package com.auth0.job.portal.service;
 import com.auth0.job.portal.converter.JobPostProfileConverter;
 
 import com.auth0.job.portal.converter.UserConverter;
+import com.auth0.job.portal.entity.GeoLocationEntity;
 import com.auth0.job.portal.entity.JobPostProfileEntity;
+import com.auth0.job.portal.enums.TypesEnum;
 import com.auth0.job.portal.exception.jobs.InvalidJobIdException;
 import com.auth0.job.portal.exception.jobs.JobFinderBaseException;
 import com.auth0.job.portal.model.JobPostResponse;
@@ -13,6 +15,7 @@ import com.auth0.job.portal.model.request.JobProfileRequest;
 
 import com.auth0.job.portal.model.response.ClubbedJobProfileResponse;
 import com.auth0.job.portal.model.response.JobProfileResponse;
+import com.auth0.job.portal.repository.GeoLocationRepository;
 import com.auth0.job.portal.repository.JobPostProfileRepository;
 
 import com.auth0.job.portal.repository.UserRepository;
@@ -30,6 +33,8 @@ public class JobPostService {
 
     private final JobPostProfileRepository jobPostProfileRepository;
     private final UserRepository userRepository;
+    private final GeoLocationRepository geoLocationRepository;
+
 
 //    private  final JobReviewsRepository jobReviewsRepository;
 
@@ -41,8 +46,14 @@ public class JobPostService {
         jobPostProfileEntity.setApplicants(0);
         jobPostProfileEntity.setStatus(true);
         jobPostProfileEntity.setIsDeleted(false);
-
         jobPostProfileRepository.saveJob(jobPostProfileEntity);
+        geoLocationRepository.saveLoc(GeoLocationEntity.builder()
+                .latitude(jobPostProfileEntity.getLat())
+                .longitude(jobPostProfileEntity.getLng())
+                .objectID(jobPostProfileEntity.getId())
+                .objectType(TypesEnum.JOB)
+                .build());
+
         return JobPostProfileConverter.createResponseFromEntity(jobPostProfileEntity,UserConverter.toUserEntity(userDto));
 
     }
@@ -69,25 +80,14 @@ public class JobPostService {
                 .build();
     }
 
-
-//    public ClubbedJobProfileResponse getJobByJobPosterAtPage(UUID userId,int page){
-//        UserDetailsDto userDetailsDto= userRepository.findUserById(userId).getUserDetailsDto();
-//        List<JobProfileResponse> jobProfiles=new LinkedList<>();
-//        List<JobPostProfileEntity> cur=jobPostProfileRepository.findByUserId(userId);
-//        cur.forEach((a)->{
-//            jobProfiles.add(JobPostProfileConverter.createResponseFromEntity(a));
-//        });
-//
-//        return ClubbedJobProfileResponse.builder()
-//                .jobProfileResponses(jobProfiles)
-//                .build();
-//    }
-
-    public ClubbedJobProfileResponse getJobByIds(List<UUID> ids,UUID userId){
+    public ClubbedJobProfileResponse getJobByIdsMatchingJobType(List<UUID> ids,UUID userId,String jobType){
         UserDto userDto= userRepository.findUserById(userId);
         List<JobProfileResponse> jobProfiles=new LinkedList<>();
         List<JobPostProfileEntity> cur=jobPostProfileRepository.findByIdIn(ids);
+
         cur.forEach((a)->{
+            if(a.getJobType().toLowerCase().indexOf(jobType.toLowerCase())!=-1 ||
+                    a.getJobDescription().toLowerCase().indexOf(jobType.toLowerCase())!=-1)
             jobProfiles.add(JobPostProfileConverter.createResponseFromEntity(a,UserConverter.toUserEntity(userDto)));
         });
         return ClubbedJobProfileResponse.builder().jobProfileResponses(jobProfiles).build();
@@ -99,27 +99,8 @@ public class JobPostService {
 
 
 
-//    public JobPostProfiles getJobByLocation(UUID userId,int radius){
-//
-//
-//
-//
-//
-//
-//        List<JobPostProfileDto> jobProfiles=new LinkedList<>();
-//        jobPostProfileRepository.findByUserIdBetweenLocation(userId,0).forEach((a)->{
-//            jobProfiles.add(jobPostProfileConverter.createJobEntityToToDto(a));
-//        });
-//        List<JobPostProfileDto> jobProfilesNext=new LinkedList<>();
-//        jobPostProfileRepository.findByUserIdBetweenLocation(userId,1).forEach((a)->{
-//            jobProfiles.add(jobPostProfileConverter.createJobEntityToToDto(a));
-//        });
-//
-//        return new JobPostProfiles(jobProfiles,jobProfilesNext,null);
-//    }
-
-//    //update
-//    public void updateJobById(JobPostProfileDto jobPostProfileDto){
+    //update
+//    public void updateJobById(JobProfileRequest jobProfileRequest,UUID userId){
 //        jobPostProfileRepository.saveJob(JobPostProfileConverter.createJobDtoToToEntity(jobPostProfileDto));
 //    }
 //

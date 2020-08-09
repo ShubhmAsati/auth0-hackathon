@@ -1,11 +1,19 @@
 package com.auth0.job.portal.entity;
 
 import com.auth0.job.portal.enums.TypesEnum;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="GEO_LOCATION")
 public class GeoLocationEntity extends BaseEntity{
 
