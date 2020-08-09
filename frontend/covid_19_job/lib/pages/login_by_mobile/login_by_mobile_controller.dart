@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:covid_19_job/const/ui_pages.dart';
 import 'package:covid_19_job/const/api_pages.dart';
 import 'package:covid_19_job/utils/get_devide_info.dart';
@@ -158,6 +160,147 @@ class LoginRegisterController {
     } else {
       throw (response);
       //oops something bad happened we are trying to resolve the issue
+    }
+  }
+
+  Future<Map<String,dynamic>> loginUsingPassword(Map<String,dynamic> passwordDetails) async{
+    String apiPath = path.join(ApiPath.JOB_PORTAL,ApiPath.LOGIN,ApiPath.APIVERSIONV1,ApiPath.LOGIN_BY_PASSWORD);
+    String body = json.encode(passwordDetails);
+    Map<String,String> headers = {
+      "Content-Type" : "application/json; charset=UTF-8",
+      'device-id' : GetDeviceInfo.DeviceId,
+    };
+    ResponseHandler response = await RestHandler.syncPost(apiPath, null, headers, body);
+    print(response);
+    if(response.getHttpCode() == 200){
+      return {
+        "nextPage": UiPagesPath.USER_HOME_PAGE,
+        "authorization" : response.getHeader("authorization"),
+        "session" : response.getHeader("session"),
+        "data" : response.getResponse(),
+        "error" : ""
+      };
+    }
+    else if(response.getHttpCode() == 400){
+      return {
+        "nextPage" : "",
+        "data" : response.getResponse(),
+        "error" : response.getError()
+      };
+    }
+    else if(response.getHttpCode() == 404){
+      return {
+        "nextPage" : UiPagesPath.LOGIN_BY_MOBILE,
+        "data" : response.getResponse(),
+        "error" : ""
+      };
+    }
+    else{
+      throw(response);
+    }
+  }
+
+  Future<Map<String,dynamic>> forgotPassword(String mobileNumber) async{
+    print(mobileNumber);
+    String apiPath = path.join(ApiPath.JOB_PORTAL,ApiPath.LOGIN,ApiPath.APIVERSIONV1,ApiPath.FORGOT_PASSWORD,mobileNumber);
+    ResponseHandler response = await RestHandler.syncGet(apiPath, null, null);
+    print(response);
+    if(response.getHttpCode() == 200){
+      return {
+        "nextPage" : UiPagesPath.FORGOT_PASSWORD,
+        "data" : response.getResponse(),
+        "error" : ""
+      };
+    }
+    else if(response.getHttpCode() == 400){
+      return{
+        "nextPage" : "",
+        "data": "",
+        "error" : "Invalid Mobile No"
+      };
+    }
+    else if(response.getHttpCode() == 404){
+      return {
+        "nextPage" : UiPagesPath.AWW_SNAP,
+        "data":response.getResponse(),
+        "error": ""
+      };
+    }
+    else{
+      throw(response);
+    }
+  }
+
+  Future<Map<String,dynamic>> verifyOtp(Map<String,dynamic> otpDetails) async{
+    String apiPath = path.join(ApiPath.JOB_PORTAL,ApiPath.LOGIN,ApiPath.APIVERSIONV1,ApiPath.VERIFY_LOGIN_OTP);
+    Map<String,String> headers = {
+      "Content-Type" : "application/json; charset=UTF-8"
+    };
+    Map<String,String> queryParams = {
+      "isLoginOTP" : "false"
+    };
+    String body = json.encode(otpDetails);
+    print(body);
+    ResponseHandler response = await RestHandler.syncPost(apiPath, queryParams, headers, body);
+    print(response);
+    if(response.getHttpCode() == 200){
+      return {
+        "nextPage":"",
+        "data" : response.getResponse(),
+        "authorization" : response.getHeader("authorization"),
+        "error" : ""
+      };
+    }
+    else if(response.getHttpCode() == 404){
+      return {
+        "nextPage" : UiPagesPath.AWW_SNAP,
+        "data" : response.getResponse(),
+        "error" : ""
+      };
+    }
+    else if(response.getHttpCode() == 403){
+      return {
+        "nextPage" : "",
+        "data" : response.getResponse(),
+        "error" : response.getError()
+      };
+    }
+    else{
+      throw(response);
+    }
+  }
+
+  Future<Map<String,dynamic>> resetPassword(Map<String,dynamic> passwordDetails,String token) async{
+    String apiPath = path.join(ApiPath.JOB_PORTAL,ApiPath.LOGIN,ApiPath.APIVERSIONV2,ApiPath.RESET_PASSWORD);
+    Map<String,String> headers = {
+      "Content-Type" : "application/json; charset=UTF-8",
+      HttpHeaders.authorizationHeader : "Bearer $token"
+    };
+    String body = json.encode(passwordDetails);
+    ResponseHandler response = await RestHandler.syncPost(apiPath, null, headers, body);
+    if(response.getHttpCode() == 200){
+      return {
+        "nextPage":UiPagesPath.LOGIN_BY_MOBILE,
+        "data":response.getResponse(),
+        "error":""
+      };
+    }
+    else if(response.getHttpCode() == 400){
+      return {
+        "nextPage" : "",
+        "data":response.getResponse(),
+        "error":response.getError()
+      };
+    }
+    else if(response.getHttpCode() == 403){
+      return {
+        "nextPage":UiPagesPath.AWW_SNAP,
+        "data":response.getResponse(),
+        "error":""
+      };
+    }
+    else{
+      throw(response);
     }
   }
 }

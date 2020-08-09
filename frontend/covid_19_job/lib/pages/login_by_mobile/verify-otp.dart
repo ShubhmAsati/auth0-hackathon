@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:covid_19_job/const/ui_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:covid_19_job/pages/login_by_mobile/login_by_mobile_controller.dart';
@@ -593,8 +594,8 @@ class _ScaffoldWidgetState extends State<ScaffoldWidget> {
   }
 
   void goToPasswordScreen() {
-    Map<String, String> m = {"name": "shubham"};
-    Navigator.pushNamed(context, '/login-password', arguments: m);
+    Map<String, String> mobileInfo = {"mobileNumber": dataFromPreviousPage["mobileNo"]};
+    Navigator.pushNamed(context, UiPagesPath.LOGIN_USING_PASSWORD, arguments: mobileInfo);
     return;
   }
 

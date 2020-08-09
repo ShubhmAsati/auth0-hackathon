@@ -6,6 +6,8 @@ import 'package:covid_19_job/pages/add_update_job/update_job.dart';
 import 'package:covid_19_job/pages/jobs/home_page_job.dart';
 import 'package:covid_19_job/pages/jobs/my-jobs.dart';
 import 'package:covid_19_job/pages/login_by_mobile/app_opening.dart';
+import 'package:covid_19_job/pages/login_by_mobile/forgot_password.dart';
+import 'package:covid_19_job/pages/login_by_mobile/login_using_password.dart';
 import 'package:covid_19_job/pages/login_by_mobile/verify-otp.dart';
 import 'package:covid_19_job/pages/register_user/register.dart';
 import 'package:covid_19_job/pages/register_user/verify_otp.dart';
@@ -38,6 +40,8 @@ void main() {
       UiPagesPath.UPDATE_JOB : (context) => UpdateJob(),
       UiPagesPath.UPDATE_ADDRESS : (context) => UpdateAddress(),
       UiPagesPath.MY_PROFILE : (context) => Users(),
+      UiPagesPath.LOGIN_USING_PASSWORD : (context) => LoginUsingPassword(),
+      UiPagesPath.FORGOT_PASSWORD : (context) => ForgotPassword(),
       '/testing' : (context) => Testing(),
     },
   ));

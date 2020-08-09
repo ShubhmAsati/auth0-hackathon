@@ -270,9 +270,6 @@ class _LoginByMobileState extends State<LoginByMobile> {
       }else{
         Navigator.pushNamedAndRemoveUntil(context, value['nextPage'],(route) => false);
       }
-
-
-
     }).catchError((onError) {
       print(onError);
       Navigator.pushNamedAndRemoveUntil(
