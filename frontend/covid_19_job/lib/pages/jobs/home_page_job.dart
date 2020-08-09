@@ -1,3 +1,4 @@
+import 'package:covid_19_job/const/ui_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -161,21 +162,24 @@ class _JobSearchHomePageState extends State<JobSearchHomePage> {
                     color: Colors.grey,
                   )),
             )),
-            Container(
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                alignment: Alignment.center,
-                child: RaisedButton.icon(
-                  onPressed: () async {
-                    await setMyCurrentlatLng();
-                    print(_mycurrentLatlng);
-                  },
-                  color: Colors.white,
-                  icon: Icon(
-                    Icons.my_location,
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: RaisedButton.icon(
+                    onPressed: () async {
+                      await setMyCurrentlatLng();
+                      print(_mycurrentLatlng);
+                    },
+                    color: Colors.white,
+                    icon: Icon(
+                      Icons.my_location,
+                    ),
+                    label: Text('Use my current location'),
+                    padding: EdgeInsets.symmetric(vertical: 7, horizontal: 80),
                   ),
-                  label: Text('Use my current location'),
-                  padding: EdgeInsets.symmetric(vertical: 7, horizontal: 80),
-                )),
+                ),
+              ]
+            ),
             Row(
               children: <Widget>[
                 Expanded(

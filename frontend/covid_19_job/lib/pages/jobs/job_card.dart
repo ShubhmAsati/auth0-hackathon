@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-//import 'package:mobile_number/mobile_number.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class JobCard extends StatefulWidget {
@@ -159,7 +158,7 @@ class _JobCardState extends State<JobCard> {
                       child: FlatButton(
                           onPressed: makePhoneCall,
                           child: Text(
-                              'Accept',
+                              'Contact',
                               style: TextStyle(
                                   color: Colors.green
                               )
@@ -197,7 +196,7 @@ class _JobCardState extends State<JobCard> {
   }
 
   makePhoneCall() async{
-    const url = 'tel:+918074436269';
+    const url = 'tel://8074436269';
     print(url);
     if(await canLaunch(url)){
       await launch(url);

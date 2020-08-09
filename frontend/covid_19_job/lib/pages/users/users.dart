@@ -714,7 +714,7 @@ class _UsersState extends State<Users> {
     JobsController jg = JobsController();
     jg.getUserDetails().then((value){
       print(value);
-      if(value['nextPage'].toString().isEmpty){
+      if(value['nextPage'].toString().isNotEmpty){
         Navigator.pushNamedAndRemoveUntil(context, UiPagesPath.AWW_SNAP, (route) => false);
       }
       else {
