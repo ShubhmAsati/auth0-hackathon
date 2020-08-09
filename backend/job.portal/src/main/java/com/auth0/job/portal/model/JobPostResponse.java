@@ -48,5 +48,11 @@ public class JobPostResponse {
 
     private String status;
 
+    private String email;
+
+    private String firstName;
+
+    private String lastName;
+
 
 }

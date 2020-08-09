@@ -28,7 +28,7 @@ public class ApplicationConstants {
 
   //Search Related
   public static final String SEARCH="/search";
-  public static final Integer DEFAULT_RADIUS=5;
+  public static final Integer DEFAULT_RADIUS=15;
   public static final Integer DEFAULT_JOB_PAGE=0;
   public static final String INSUFFICIENT_SEARCH_PARAMETERS="Enter coordinates or area or city";
 

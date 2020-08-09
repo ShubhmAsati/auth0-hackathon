@@ -1,7 +1,15 @@
 package com.auth0.job.portal.model.response;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
+import java.util.List;
+
+@Data
+@Builder
 public class ClubbedJobProfileResponse {
-    Iterable<JobProfileResponse> jobProfileResponses;
-    Integer pageNo;
-    Integer totalPages;
+    private List<JobProfileResponse> jobProfileResponses;
+    private Integer pageNo;
+    private Integer totalPages;
 }
