@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.auth0.job.portal.model.JobPostResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -45,5 +47,8 @@ public class AddressEntity extends BaseEntity {
 
   @OneToOne(mappedBy = "address")
   private UserDetailsEntity userDetailsEntity;
+
+  @OneToOne(mappedBy = "address")
+  private JobPostProfileEntity jobPostProfileEntity;
 
 }

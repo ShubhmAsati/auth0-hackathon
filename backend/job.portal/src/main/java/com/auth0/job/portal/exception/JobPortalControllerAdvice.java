@@ -1,5 +1,6 @@
 package com.auth0.job.portal.exception;
 
+import com.auth0.job.portal.exception.jobs.InvalidJobIdException;
 import com.auth0.job.portal.model.response.ErrorResponse;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
@@ -60,6 +61,15 @@ public class JobPortalControllerAdvice {
     log.info(VALIDATION_ERROR, e);
     return ResponseEntity.status(HttpStatus.CONFLICT).body(buildErrorResponse(e.getMessage()));
   }
+
+  //Jobs Related
+  @ExceptionHandler(InvalidJobIdException.class)
+  public ResponseEntity<ErrorResponse> handleInvalidJobId(
+          InvalidJobIdException e) {
+    log.info(VALIDATION_ERROR, e);
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(buildErrorResponse(e.getMessage()));
+  }
+
 
   private ErrorResponse buildErrorResponse(String message) {
     return ErrorResponse.builder()
