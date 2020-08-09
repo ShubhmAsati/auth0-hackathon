@@ -35,7 +35,7 @@ class _SearchJobsState extends State<SearchJobs> {
                   alignment: Alignment.center,
                   child: RaisedButton.icon(
                     onPressed: (){print('hi');
-                    userLocation.getLatLng();
+                   CurrentLocation.GetLatLng();
                     },
 
                     color: Colors.white,

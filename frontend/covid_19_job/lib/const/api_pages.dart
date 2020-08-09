@@ -10,4 +10,5 @@ class ApiPath{
   static String VERIFY_LOGIN_OTP = 'verify-otp';
   static String RESEND_REGISTER_OTP = 'resend-otp';
   static String RESEND_LOGIN_OTP = 'resend-otp';
+  static String JOB = 'job';
 }

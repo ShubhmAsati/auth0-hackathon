@@ -149,8 +149,8 @@ class _JobSearchHomePageState extends State<JobSearchHomePage> {
                     alignment: Alignment.center,
                     child: RaisedButton.icon(
                       onPressed: () {
-                        userLocation.getLatLng();
-                        userLocation.printAddress();
+                        CurrentLocation.GetLatLng();
+
                       },
                       color: Colors.white,
                       icon: Icon(

@@ -11,14 +11,13 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 class RegisterForm extends StatefulWidget {
   final BuildContext parentContext;
-  final Function(bool,String) callback;
-  RegisterForm({this.parentContext,this.callback});
+  final Function(bool, String) callback;
+  RegisterForm({this.parentContext, this.callback});
   @override
   _RegisterFormState createState() => _RegisterFormState();
 }
 
 class _RegisterFormState extends State<RegisterForm> {
-
   final _formKey = GlobalKey<FormState>();
   TextEditingController firstNameController = new TextEditingController();
   TextEditingController lastNameController = new TextEditingController();
@@ -37,13 +36,14 @@ class _RegisterFormState extends State<RegisterForm> {
   bool formValid;
   Progress p;
 
-  fieldFocusChange(BuildContext context, FocusNode currentFocus, FocusNode nextFocus){
+  fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);
   }
 
-  void registerColorChanger(){
-    registerColor =  formValid?Colors.teal[500]:Colors.grey;
+  void registerColorChanger() {
+    registerColor = formValid ? Colors.teal[500] : Colors.grey;
   }
 
   @override
@@ -69,40 +69,38 @@ class _RegisterFormState extends State<RegisterForm> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Expanded(
-                flex:5,
+                flex: 5,
                 child: TextFormField(
                   textInputAction: TextInputAction.next,
                   controller: firstNameController,
                   focusNode: firstNameFocus,
-                  onFieldSubmitted: (term){
-                    Utils.fieldFocusChange(context, firstNameFocus, lastNameFocus);
+                  onFieldSubmitted: (term) {
+                    Utils.fieldFocusChange(
+                        context, firstNameFocus, lastNameFocus);
                   },
-                  validator: (value){
-                    if(value.length>0){
+                  validator: (value) {
+                    if (value.length > 0) {
                       return null;
-                    }
-                    else{
+                    } else {
                       return "Invalid first name";
                     }
                   },
-                  style: TextStyle(
-                      color: Colors.black
-                  ),
-                  onChanged: (value) async{
+                  style: TextStyle(color: Colors.black),
+                  onChanged: (value) async {
                     bool mobileCheck;
-                    try{
-                      mobileCheck = await Utils.validPhoneNumber(phoneNumber:mobile.phoneNumber,isoCode:mobile.isoCode);
-                    }
-                    catch(e){
+                    try {
+                      mobileCheck = await Utils.validPhoneNumber(
+                          phoneNumber: mobile.phoneNumber,
+                          isoCode: mobile.isoCode);
+                    } catch (e) {
                       mobileCheck = false;
                     }
-                    if(_formKey.currentState.validate() && mobileCheck){
+                    if (_formKey.currentState.validate() && mobileCheck) {
                       setState(() {
                         formValid = true;
                         mobileNoValid = mobileCheck;
                       });
-                    }
-                    else{
+                    } else {
                       setState(() {
                         formValid = false;
                         mobileNoValid = mobileCheck;
@@ -112,151 +110,117 @@ class _RegisterFormState extends State<RegisterForm> {
                   decoration: InputDecoration(
                     labelText: "First Name",
                     hintText: "Enter First Name",
-                    labelStyle: TextStyle(
-                        color:Colors.grey
-                    ),
-                    hintStyle: TextStyle(
-                        color: Colors.grey
-                    ),
+                    labelStyle: TextStyle(color: Colors.grey),
+                    hintStyle: TextStyle(color: Colors.grey),
                     fillColor: Colors.black,
-                    errorStyle: TextStyle(
-                        color:Colors.red,
-                        fontSize: 14
-                    ),
+                    errorStyle: TextStyle(color: Colors.red, fontSize: 14),
                     focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
-                        borderSide:BorderSide(
+                        borderSide: BorderSide(
                             width: 2,
                             style: BorderStyle.solid,
-                            color:Colors.red
-                        )
-                    ),
+                            color: Colors.red)),
                     errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
-                        borderSide:BorderSide(
+                        borderSide: BorderSide(
                             width: 2,
                             style: BorderStyle.solid,
-                            color:Colors.red
-                        )
-                    ),
+                            color: Colors.red)),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
                         borderSide: BorderSide(
                             color: Colors.teal[500],
                             width: 2.0,
-                            style: BorderStyle.solid
-                        )
-                    ),
+                            style: BorderStyle.solid)),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
                         borderSide: BorderSide(
                             color: Colors.teal[500],
                             width: 2.0,
-                            style: BorderStyle.solid
-                        )
-                    ),
+                            style: BorderStyle.solid)),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
                         borderSide: BorderSide(
                             color: Colors.teal[500],
                             width: 2.0,
-                            style: BorderStyle.solid
-                        )
-                    ),
+                            style: BorderStyle.solid)),
                   ),
                 ),
               ),
-              SizedBox(width: 7,),
+              SizedBox(
+                width: 7,
+              ),
               Expanded(
-                flex:5,
+                flex: 5,
                 child: TextFormField(
                   textInputAction: TextInputAction.next,
                   controller: lastNameController,
                   focusNode: lastNameFocus,
-                  style: TextStyle(
-                      color: Colors.black
-                  ),
-                  onFieldSubmitted: (term){
+                  style: TextStyle(color: Colors.black),
+                  onFieldSubmitted: (term) {
                     print(term);
-                    Utils.fieldFocusChange(context, lastNameFocus, mobileNoFocus);
+                    Utils.fieldFocusChange(
+                        context, lastNameFocus, mobileNoFocus);
                   },
-                  onChanged: (value) async{
+                  onChanged: (value) async {
                     bool mobileCheck;
-                    try{
-                      mobileCheck = await Utils.validPhoneNumber(phoneNumber:mobile.phoneNumber,isoCode:mobile.isoCode);
-                    }
-                    catch(e){
+                    try {
+                      mobileCheck = await Utils.validPhoneNumber(
+                          phoneNumber: mobile.phoneNumber,
+                          isoCode: mobile.isoCode);
+                    } catch (e) {
                       mobileCheck = false;
                     }
-                    if(_formKey.currentState.validate() && mobileCheck){
+                    if (_formKey.currentState.validate() && mobileCheck) {
                       setState(() {
                         formValid = true;
                         mobileNoValid = mobileCheck;
                       });
-                    }
-                    else{
+                    } else {
                       setState(() {
                         formValid = false;
                         mobileNoValid = mobileCheck;
                       });
                     }
                   },
-                  validator: (value){
-                    if(value.length>0){
+                  validator: (value) {
+                    if (value.length > 0) {
                       return null;
-                    }
-                    else{
+                    } else {
                       return "Invalid last name";
                     }
                   },
                   decoration: InputDecoration(
                     labelText: "Last Name",
                     hintText: "Enter Last Name",
-                    labelStyle: TextStyle(
-                        color:Colors.grey
-                    ),
-                    hintStyle: TextStyle(
-                        color: Colors.grey
-                    ),
-                    errorStyle: TextStyle(
-                        color:Colors.red,
-                        fontSize: 14
-                    ),
+                    labelStyle: TextStyle(color: Colors.grey),
+                    hintStyle: TextStyle(color: Colors.grey),
+                    errorStyle: TextStyle(color: Colors.red, fontSize: 14),
                     focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
-                        borderSide:BorderSide(
+                        borderSide: BorderSide(
                             width: 2,
                             style: BorderStyle.solid,
-                            color:Colors.red
-                        )
-                    ),
+                            color: Colors.red)),
                     errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
-                        borderSide:BorderSide(
+                        borderSide: BorderSide(
                             width: 2,
                             style: BorderStyle.solid,
-                            color:Colors.red
-                        )
-                    ),
+                            color: Colors.red)),
                     border: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color:Colors.teal[500],
+                          color: Colors.teal[500],
                           width: 2.0,
                         ),
-                        borderRadius: BorderRadius.circular(25)
-                    ),
+                        borderRadius: BorderRadius.circular(25)),
                     enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors.teal[500],
-                            width:2.0
-                        ),
-                        borderRadius: BorderRadius.circular(25.0)
-                    ),
+                        borderSide:
+                            BorderSide(color: Colors.teal[500], width: 2.0),
+                        borderRadius: BorderRadius.circular(25.0)),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Colors.teal[500],
-                          width:2.0
-                      ),
+                      borderSide:
+                          BorderSide(color: Colors.teal[500], width: 2.0),
                       borderRadius: BorderRadius.circular(25),
                     ),
                   ),
@@ -268,74 +232,65 @@ class _RegisterFormState extends State<RegisterForm> {
             height: 30,
           ),
           Container(
-            padding: EdgeInsets.only(
-                left: 10
-            ),
-            decoration: mobileNoValid?
-            BoxDecoration(
-              border:  Border.all(
-                  color: Colors.teal[500],
-                  width: 2.0
-              ),
-              borderRadius: BorderRadius.circular(25),
-            )
-                :
-            BoxDecoration(
-              border:  Border.all(
-                  color: Colors.red,
-                  width: 2.0
-              ),
-              borderRadius: BorderRadius.circular(25),
-            ),
+            padding: EdgeInsets.only(left: 10),
+            decoration: mobileNoValid
+                ? BoxDecoration(
+                    border: Border.all(color: Colors.teal[500], width: 2.0),
+                    borderRadius: BorderRadius.circular(25),
+                  )
+                : BoxDecoration(
+                    border: Border.all(color: Colors.red, width: 2.0),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
             child: InternationalPhoneNumberInput(
               textFieldController: mobileController,
               focusNode: mobileNoFocus,
               keyboardAction: TextInputAction.next,
-              onSubmit: (){
+              onSubmit: () {
                 Utils.fieldFocusChange(context, mobileNoFocus, pwdFocus);
               },
-              countries: ['IN','US','GB'],
+              countries: ['IN', 'US', 'GB'],
               errorMessage: null,
-              onInputChanged: (PhoneNumber number) async{
+              onInputChanged: (PhoneNumber number) async {
                 mobile = number;
                 bool mobileCheck;
-                mobileCheck = await Utils.validPhoneNumber(phoneNumber: number.phoneNumber, isoCode: number.isoCode);
-                if(_formKey.currentState.validate() && mobileCheck){
+                mobileCheck = await Utils.validPhoneNumber(
+                    phoneNumber: number.phoneNumber, isoCode: number.isoCode);
+                if (_formKey.currentState.validate() && mobileCheck) {
                   setState(() {
                     formValid = true;
                   });
-                }
-                else{
+                } else {
                   setState(() {
                     formValid = false;
                   });
                 }
               },
-              onInputValidated: (bool value){
+              onInputValidated: (bool value) {
                 setState(() {
                   mobileNoValid = value;
                 });
               },
               inputDecoration: InputDecoration(
                 hintText: "Enter Mobile No",
-                border: OutlineInputBorder(
-                    borderSide:BorderSide.none
-                ),
+                border: OutlineInputBorder(borderSide: BorderSide.none),
               ),
             ),
           ),
-          SizedBox(height: 8,),
-          !mobileNoValid?Container(
-            padding: EdgeInsets.only(left: 12),
-            child: Text(
-              "Invalid Mobile No",
-              style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.red
-              ),
-            ),
-          ):
-          SizedBox(height: 0,),
+          SizedBox(
+            height: 8,
+          ),
+          !mobileNoValid
+              ? Container(
+                  padding: EdgeInsets.only(left: 12),
+                  child: Text(
+                    "Invalid Mobile No",
+                    style: TextStyle(fontSize: 14, color: Colors.red),
+                  ),
+                )
+              : SizedBox(
+                  height: 0,
+                ),
           SizedBox(
             height: 20,
           ),
@@ -344,28 +299,27 @@ class _RegisterFormState extends State<RegisterForm> {
             focusNode: pwdFocus,
             controller: passwordController,
             obscureText: !pwdVisibility,
-            validator: (value){
+            validator: (value) {
 //              RegExp regex = RegExp(r"^(?=.*?[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&~]).{8,}$");
-              if(value.length>=8){
+              if (value.length >= 8) {
                 return null;
               }
               return "Invalid password";
             },
-            onChanged: (value) async{
+            onChanged: (value) async {
               bool mobileCheck;
-              try{
-                mobileCheck = await Utils.validPhoneNumber(phoneNumber:mobile.phoneNumber,isoCode:mobile.isoCode);
-              }
-              catch(e){
+              try {
+                mobileCheck = await Utils.validPhoneNumber(
+                    phoneNumber: mobile.phoneNumber, isoCode: mobile.isoCode);
+              } catch (e) {
                 mobileCheck = false;
               }
-              if(_formKey.currentState.validate() && mobileCheck){
+              if (_formKey.currentState.validate() && mobileCheck) {
                 setState(() {
                   formValid = true;
                   mobileNoValid = mobileCheck;
                 });
-              }
-              else{
+              } else {
                 setState(() {
                   formValid = false;
                   mobileNoValid = mobileCheck;
@@ -375,68 +329,46 @@ class _RegisterFormState extends State<RegisterForm> {
             decoration: InputDecoration(
               suffixIcon: IconButton(
                 icon: Icon(
-                  pwdVisibility?Icons.visibility:
-                  Icons.visibility_off,
+                  pwdVisibility ? Icons.visibility : Icons.visibility_off,
                   color: Colors.grey,
                 ),
-                onPressed: (){
+                onPressed: () {
                   setState(() {
-                    pwdVisibility = pwdVisibility?false:true;
+                    pwdVisibility = pwdVisibility ? false : true;
                   });
                 },
               ),
-              hintStyle: TextStyle(
-                  color:Colors.grey
-              ),
-              labelStyle: TextStyle(
-                  color:Colors.grey
-              ),
+              hintStyle: TextStyle(color: Colors.grey),
+              labelStyle: TextStyle(color: Colors.grey),
               labelText: "Password",
               hintText: "Enter Password",
-              errorStyle: TextStyle(
-                  color:Colors.red,
-                  fontSize: 14
-              ),
+              errorStyle: TextStyle(color: Colors.red, fontSize: 14),
               focusedErrorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25),
-                  borderSide:BorderSide(
-                      width: 2,
-                      style: BorderStyle.solid,
-                      color:Colors.red
-                  )
-              ),
+                  borderSide: BorderSide(
+                      width: 2, style: BorderStyle.solid, color: Colors.red)),
               errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25),
-                  borderSide:BorderSide(
-                      width: 2,
-                      style: BorderStyle.solid,
-                      color:Colors.red
-                  )
-              ),
+                  borderSide: BorderSide(
+                      width: 2, style: BorderStyle.solid, color: Colors.red)),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25),
                   borderSide: BorderSide(
                       width: 2,
                       style: BorderStyle.solid,
-                      color: Colors.teal[500]
-                  )
-              ),
+                      color: Colors.teal[500])),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25),
                   borderSide: BorderSide(
                       width: 2,
                       style: BorderStyle.solid,
-                      color: Colors.teal[500]
-                  )
-              ),
+                      color: Colors.teal[500])),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25),
                   borderSide: BorderSide(
                       width: 2,
                       style: BorderStyle.solid,
-                      color: Colors.teal[500]
-                  )
-              ),
+                      color: Colors.teal[500])),
             ),
           ),
           SizedBox(
@@ -446,10 +378,12 @@ class _RegisterFormState extends State<RegisterForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               RaisedButton(
-                color: (formValid && mobileNoValid)?Colors.teal[500]:Colors.grey,
-                onPressed: (){
-                  if(formValid && mobileNoValid){
-                    goToVerifyOtpScreen();
+                color: (formValid && mobileNoValid)
+                    ? Colors.teal[500]
+                    : Colors.grey,
+                onPressed: () {
+                  if (formValid && mobileNoValid) {
+                    goToHomePage();
                   }
                 },
                 child: Text(
@@ -472,37 +406,28 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
               OutlineButton(
                   textTheme: ButtonTextTheme.accent,
-                  borderSide: BorderSide(
-                      style: BorderStyle.none
-                  ),
-                  onPressed: () async{
-                    Navigator.pushReplacementNamed(widget.parentContext, UiPagesPath.LOGIN_BY_MOBILE);
+                  borderSide: BorderSide(style: BorderStyle.none),
+                  onPressed: () async {
+                    Navigator.pushReplacementNamed(
+                        widget.parentContext, UiPagesPath.LOGIN_BY_MOBILE);
                   },
                   child: Row(
                     children: <Widget>[
                       Container(
                         decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.teal[500]
-                        ),
+                            shape: BoxShape.circle, color: Colors.teal[500]),
                         child: Icon(
                           Icons.arrow_back,
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(
-                          width:5
-                      ),
+                      SizedBox(width: 5),
                       Text(
                         "Login",
-                        style: TextStyle(
-                            color: Colors.teal[500]
-                        ),
+                        style: TextStyle(color: Colors.teal[500]),
                       ),
-
                     ],
-                  )
-              )
+                  ))
             ],
           )
         ],
@@ -510,60 +435,101 @@ class _RegisterFormState extends State<RegisterForm> {
     );
   }
 
-  snackBar(isRegistered){
+  snackBar(isRegistered) {
     print(widget.parentContext);
-    if(isRegistered){
-      Scaffold.of(widget.parentContext).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.green,
-            content: Text("Registered Successfully"),
-          )
-      );
-    }
-    else{
-      Scaffold.of(widget.parentContext).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red,
-            content: Text("Invalid user details"),
-          )
-      );
+    if (isRegistered) {
+      Scaffold.of(widget.parentContext).showSnackBar(SnackBar(
+        backgroundColor: Colors.green,
+        content: Text("Registered Successfully"),
+      ));
+    } else {
+      Scaffold.of(widget.parentContext).showSnackBar(SnackBar(
+        backgroundColor: Colors.red,
+        content: Text("Invalid user details"),
+      ));
     }
   }
 
-  goToVerifyOtpScreen() async{
+  goToVerifyOtpScreen() async {
     RegisterController rg = RegisterController();
-    Map<String,dynamic> userDetails ={
+    Map<String, dynamic> userDetails = {
       "firstName": firstNameController.text,
       "lastName": lastNameController.text,
       "mobileNumber": mobile.phoneNumber,
       "password": passwordController.text
     };
 //    p.pr.show();
-    rg.registerUser(userDetails).then((value){
+    rg.registerUser(userDetails).then((value) {
       String nextPage = value['nextPage'];
-      if (nextPage.isEmpty){
-        widget.callback(false,value['error']);
-      }else{
-        if (value['error'].toString().isEmpty){
-          widget.callback(true,"Success");
-          Map<String,dynamic> nextPagePayload ;
+      if (nextPage.isEmpty) {
+        widget.callback(false, value['error']);
+      } else {
+        if (value['error'].toString().isEmpty) {
+          widget.callback(true, "Success");
+          Map<String, dynamic> nextPagePayload;
           nextPagePayload = value['data'];
           nextPagePayload["previousPage"] = UiPagesPath.REGISTER;
           nextPagePayload['mobileNo'] = mobile.phoneNumber;
           print(value['nextPage']);
-          Navigator.pushNamedAndRemoveUntil(widget.parentContext,value["nextPage"],(route) => false,arguments:nextPagePayload);
-        }else{
-          Map<String,dynamic> nextPagePayload  = {} ;
+          Navigator.pushNamedAndRemoveUntil(
+              widget.parentContext, value["nextPage"], (route) => false,
+              arguments: nextPagePayload);
+        } else {
+          Map<String, dynamic> nextPagePayload = {};
           nextPagePayload["previousPage"] = UiPagesPath.REGISTER;
-          widget.callback(false,value['error']);
-          Navigator.pushNamedAndRemoveUntil(widget.parentContext,UiPagesPath.USER_HOME_PAGE,(route) => false);
+          widget.callback(false, value['error']);
+          Navigator.pushNamedAndRemoveUntil(widget.parentContext,
+              UiPagesPath.USER_HOME_PAGE, (route) => false);
         }
       }
-    }
-    ).catchError((err){
+    }).catchError((err) {
       print(err);
-      Navigator.pushNamedAndRemoveUntil(context, UiPagesPath.AWW_SNAP,(route) => false,);
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        UiPagesPath.AWW_SNAP,
+        (route) => false,
+      );
+    });
+  }
+
+  goToHomePage() {
+    RegisterController rg = RegisterController();
+    Map<String, dynamic> userDetails = {
+      "firstName": firstNameController.text,
+      "lastName": lastNameController.text,
+      "mobileNumber": mobile.phoneNumber,
+      "password": passwordController.text
+    };
+//    p.pr.show();
+    rg.registerUser(userDetails).then((value) {
+      String nextPage = value['nextPage'];
+      if (nextPage.isEmpty) {
+        widget.callback(false, value['error']);
+      } else {
+        if (value['error'].toString().isEmpty) {
+          widget.callback(true, "Success");
+          Map<String, dynamic> nextPagePayload;
+          nextPagePayload = value['data'];
+          nextPagePayload["previousPage"] = UiPagesPath.REGISTER;
+          nextPagePayload['mobileNo'] = mobile.phoneNumber;
+          Navigator.pushNamedAndRemoveUntil(
+              widget.parentContext, value["nextPage"], (route) => false,
+              arguments: nextPagePayload);
+        } else {
+          Map<String, dynamic> nextPagePayload = {};
+          nextPagePayload["previousPage"] = UiPagesPath.REGISTER;
+          widget.callback(false, value['error']);
+          Navigator.pushNamedAndRemoveUntil(
+              widget.parentContext, value["nextPage"], (route) => false);
+        }
+      }
+    }).catchError((err) {
+      print(err);
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        UiPagesPath.AWW_SNAP,
+        (route) => false,
+      );
     });
   }
 }
-

@@ -1,3 +1,4 @@
+import 'package:covid_19_job/const/ui_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:covid_19_job/utils/bottom_navigator.dart';
@@ -6,6 +7,7 @@ import 'package:dropdownfield/dropdownfield.dart';
 import 'package:covid_19_job/pages/add_update_job/add_address.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:covid_19_job/utils/utils.dart';
 
 class AddJob extends StatefulWidget {
   @override
@@ -14,21 +16,31 @@ class AddJob extends StatefulWidget {
 
 class _AddJobState extends State<AddJob> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _jobTypeController = new TextEditingController();
   final List<DropdownMenuItem> items = [];
+  //this is also job type controller
   TextEditingController _dropDownController = new TextEditingController();
+  TextEditingController _jobDescriptionController = new TextEditingController();
+  TextEditingController _startLimitController  = new TextEditingController();
+  TextEditingController _endLimitController = new TextEditingController();
 
+
+   bool _isValidJobType = false;
   List<String> jobs = new List();
   String selectedValue = '';
   String _dropDownWages = 'Daily';
   List<String> _dropDownWagesList = ['Hourly', 'Daily', 'Monthly', 'Yearly'];
-  dynamic selectedRadio;
-  final TextEditingController maxWidthController = TextEditingController();
-  final TextEditingController maxHeightController = TextEditingController();
-  final TextEditingController qualityController = TextEditingController();
+  dynamic selectedRadio = 1;
+  List<String> gender = ['','Female','Male','Anyone'];
   final ImagePicker _picker = ImagePicker();
   PickedFile _imageFile;
   dynamic _pickImageError;
+
+  FocusNode _jobTypeFocus = FocusNode();
+  FocusNode _jobDescriptionFocus = FocusNode();
+  FocusNode _wageEndLimitFocus = FocusNode();
+  FocusNode _wageStartLimitFocus = FocusNode();
+  FocusNode _jobTimingFocus = FocusNode();
+  FocusNode _genderFocus = FocusNode();
 
   selectedRadioButton(val) {
     setState(() {
@@ -108,6 +120,12 @@ class _AddJobState extends State<AddJob> {
                       Container(
                         padding: const EdgeInsets.fromLTRB(20, 10, 60, 10),
                         child: TextFormField(
+                          controller: _jobDescriptionController,
+                            focusNode: _jobDescriptionFocus,
+                            onFieldSubmitted: (term) {
+                              Utils.fieldFocusChange(
+                                  context, _jobDescriptionFocus, _wageStartLimitFocus);
+                            },
                             keyboardType: TextInputType.multiline,
                             minLines: 3,
                             maxLines: 4,
@@ -157,6 +175,13 @@ class _AddJobState extends State<AddJob> {
                                 width: 50,
                                 child: TextFormField(
                                   keyboardType: TextInputType.number,
+                                  controller: _startLimitController,
+                                  focusNode: _wageStartLimitFocus,
+                                  onFieldSubmitted: (term) {
+                                    Utils.fieldFocusChange(
+                                        context, _wageStartLimitFocus, _wageEndLimitFocus);
+                                  },
+
                                   decoration: InputDecoration(
                                     contentPadding:
                                     const EdgeInsets.fromLTRB(0, 0, 0, -40),
@@ -184,6 +209,12 @@ class _AddJobState extends State<AddJob> {
                                 height: 50,
                                 width: 50,
                                 child: TextFormField(
+                                  controller: _endLimitController,
+                                  focusNode: _wageEndLimitFocus,
+                                  onFieldSubmitted: (term) {
+                                    Utils.fieldFocusChange(
+                                        context, _wageEndLimitFocus, _jobTimingFocus);
+                                  },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                     contentPadding:
@@ -271,7 +302,12 @@ class _AddJobState extends State<AddJob> {
                         EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                         child: RaisedButton(
                             onPressed: () {
-                              goToAddAddress();
+                              if (_formKey.currentState.validate()){
+                                goToAddAddress();
+                              }else{
+
+                              }
+
                             },
                             elevation: 15,
                             color: Colors.teal,
@@ -297,9 +333,16 @@ class _AddJobState extends State<AddJob> {
   }
 
   void goToAddAddress() {
-    Map<String, String> m = {"name": "shubham"};
-    print('imhere');
-    Navigator.pushNamed(context, '/add-address', arguments: m);
+    Map<String,String> nextPagePayload = {
+    'jobType' : _dropDownController.text,
+    'jobDescriptions' : _jobDescriptionController.text,
+    'wageTiming' : _dropDownWages,
+    'wageStartLimit' : _startLimitController.text,
+    'wageEndLimit' : _endLimitController.text,
+    'gender' : gender[selectedRadio],
+    'imagePath' : 'imagePath'
+    };
+    Navigator.pushNamed(context, UiPagesPath.ADD_JOB_ADDRESS, arguments: nextPagePayload);
     return;
   }
 
@@ -381,6 +424,19 @@ class _AddJobState extends State<AddJob> {
       _imageFile = null;
     });
   }
+  snackBar(isValidated) {
 
+    if (isValidated) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.green,
+        content: Text("Successfully validated"),
+      ));
+    } else {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red,
+        content: Text("Validation failed"),
+      ));
+    }
+  }
 }
 

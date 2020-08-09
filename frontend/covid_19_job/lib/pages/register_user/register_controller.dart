@@ -9,7 +9,6 @@ import 'package:path/path.dart' as path;
 
 class RegisterController{
   RegisterController();
-
   Future<Map<String,dynamic>> registerUser(Map<String,dynamic> userDetails) async{
     String apiPath = path.join(ApiPath.JOB_PORTAL,ApiPath.REGISTER,ApiPath.APIVERSIONV1,ApiPath.STEP_ONE);
     Map<String,String> headers = {
@@ -22,7 +21,7 @@ class RegisterController{
       //success path
 
       return {
-        "nextPage" : UiPagesPath.VERIFY_REGISTER_OTP,
+        "nextPage" : UiPagesPath.USER_HOME_PAGE,
         "data" : response.getResponse(),
         "error" : ""
       };
@@ -38,7 +37,7 @@ class RegisterController{
      //user already registered
       print(response.error.toString());
       return {
-        "nextPage" : UiPagesPath.USER_HOME_PAGE,
+        "nextPage" : UiPagesPath.LOGIN_BY_MOBILE,
         "data" : response.getResponse(),
         "error" : response.getError(),
       };
