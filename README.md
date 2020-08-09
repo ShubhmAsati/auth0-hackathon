@@ -51,16 +51,10 @@ In the after COVID world where contacting with other folks will still be dangero
    <img src="https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/job_search_home_page.jpeg" width="350" height="600">
    
 ## Post a Job 
-
-   ### step1 
-   
-       <img src="https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/create_job.png" height="600">
-       
-   ### step 2 
-   
-       <img src="https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/job_location_add_address.jpeg" width="350" height="600">
+  <img src="https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/create_job.png" height="600">
+  <img src="https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/job_location_add_address.jpeg" width="350" height="600">
        
 ## My Jobs
 
-       <img src="https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/my-jobs.jpeg" width="350" height="600">
+  <img src="https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/my-jobs.jpeg" width="350" height="600">
    
