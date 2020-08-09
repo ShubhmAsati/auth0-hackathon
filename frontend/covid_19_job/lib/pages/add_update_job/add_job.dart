@@ -52,8 +52,7 @@ class _AddJobState extends State<AddJob> {
   @override
   void initState() {
     super.initState();
-    jobs = getMatchingJobs('filterBy');
-    List<String> l = getMatchingJobs('');
+    jobs = getMatchingJobs();
     _dropDownController.addListener(() {
       if (_dropDownController.text.length > 4 &&
           !jobs.contains(_dropDownController.text)) {
@@ -332,7 +331,8 @@ class _AddJobState extends State<AddJob> {
     );
   }
 
-  List<String> getMatchingJobs(String filterBy) {
+  Future<List<String>> getMatchingJobs() async{
+
     return ['first', 'second', 'third', 'fourth'];
   }
 

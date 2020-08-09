@@ -46,4 +46,38 @@ class JobsController{
       throw(response);
     }
   }
+
+  Future<Map<String,dynamic>> getJobTypes() async{
+    String apiPath = path.join(ApiPath.JOB_PORTAL,ApiPath.JOB,ApiPath.APIVERSIONV1,ApiPath.JOB_TYPES);
+    Map<String,String> headers = {
+      'Content-Type' : 'application/json; charset=UTF-8',
+      'device-id' : GetDeviceInfo.DeviceId,
+      'authorization': JWTTOKEN.token,
+    };
+    print(headers);
+    ResponseHandler response = await RestHandler.syncGet(apiPath, null, headers);
+    print(response.getHttpCode());
+    if (response.getHttpCode() == 200){
+      return {
+        "nextPage" : UiPagesPath.MY_JOBS,
+        "data" : response.getResponse(),
+        "error" : ""
+      };
+    }else if (response.getHttpCode() == 400){
+      //some validation error
+      return {
+        "nextPage" : '',
+        "data": response.getResponse(),
+        "error" : response.getError(),
+      };
+    }else if(response.getHttpCode() == 404){
+      return {
+        "nextPage" : UiPagesPath.AWW_SNAP,
+        "data": response.getResponse(),
+        "error" : response.getError(),
+      };
+    }else{
+      throw(response);
+    }
+  }
 }
