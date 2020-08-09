@@ -26,12 +26,12 @@ public class JobPostProfileRepository {
         return jpaJobPostProfileRepository.findById(id);
     }
 
-    public Page<JobPostProfileEntity> findByIdIn(List<UUID> ids,int pageNo){
-        return jpaJobPostProfileRepository.findByIdIn(ids, PageRequest.of(pageNo,jobsPerPage, Sort.Direction.DESC,"updated_at"));
+    public List<JobPostProfileEntity> findByIdIn(List<UUID> ids){
+        return jpaJobPostProfileRepository.findByIdIn(ids);
     }
 
-    public Page<JobPostProfileEntity> findByUserIdWithPage(UUID userId,int pageNo){
-        return jpaJobPostProfileRepository.findByUserId(userId, PageRequest.of(pageNo,jobsPerPage, Sort.Direction.DESC,"updated_at"));
+    public List<JobPostProfileEntity> findByUserId(UUID userId){
+        return jpaJobPostProfileRepository.findByUserId(userId);
     }
 
 //    public Page<JobPostProfileEntity> findByBetweenLocationUUID userId,int radius){

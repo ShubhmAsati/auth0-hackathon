@@ -22,7 +22,7 @@ public class JobPostProfileEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-
+    @Column(name = "USER_ID")
     private UUID userId;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

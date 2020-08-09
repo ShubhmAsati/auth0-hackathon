@@ -3,6 +3,7 @@ package com.auth0.job.portal.controller;
 import com.auth0.job.portal.constants.ApplicationConstants;
 import com.auth0.job.portal.model.JobPostResponse;
 import com.auth0.job.portal.model.request.JobProfileRequest;
+import com.auth0.job.portal.model.response.ClubbedJobProfileResponse;
 import com.auth0.job.portal.model.response.JobProfileResponse;
 import com.auth0.job.portal.service.JobPostService;
 import com.auth0.job.portal.constants.ApplicationConstants;
@@ -44,24 +45,17 @@ public class JobPostController {
     public ResponseEntity<JobPostResponse> getJobById(@RequestHeader(AUTHORIZATION) String token,@Valid @RequestParam("Id") UUID id){
         return ResponseEntity.status(HttpStatus.OK).body(jobPostService.getJobById(id,UUID.fromString(jwtUtil.extractUserId(token))));
     }
-//
-//    //by user
-//    @GetMapping("/get-job-posts-by-poster")
-//    public ResponseEntity<JobPostProfiles> getJobByJobPoster(@Valid @RequestParam("Id") UUID userId){
-//        return ResponseEntity.status(HttpStatus.FOUND).body(jobPostService.getJobByJobPoster(userId));
-//    }
-//
+
+    //by user
+    @GetMapping("/get-job-posts-by-poster")
+    public ResponseEntity<ClubbedJobProfileResponse> getJobByJobPoster(@RequestHeader(AUTHORIZATION) String token){
+        return ResponseEntity.status(HttpStatus.OK).body(jobPostService.getJobByJobPoster(UUID.fromString(jwtUtil.extractUserId(token))));
+    }
+    //
 //    @GetMapping("/get-job-posts-by-poster-at-page")
-//    public ResponseEntity<JobPostProfiles> getJobByJobPoster
-//            (@Valid @RequestParam("Id") UUID userId,@Valid @RequestParam("PageNo") Integer pageNo){
-//        return ResponseEntity.status(HttpStatus.FOUND).body(jobPostService.getJobByJobPosterAtPage(userId,pageNo));
-//    }
-
-//    @GetMapping("/getJobPostsByLocation")
-//    public ResponseEntity<JobPostProfiles> getJobByLocation
-//            (@Valid @RequestParam("Id") UUID userId,@Valid @RequestParam("Radius") int radius){0
-
-//        return ResponseEntity.status(HttpStatus.FOUND).body(jobPostService.getJobByLocation(userId,radius));
+//    public ResponseEntity<ClubbedJobProfileResponse> getJobByJobPoster
+//            (@RequestHeader(AUTHORIZATION) String token,@Valid @RequestParam("PageNo") Integer pageNo){
+//        return ResponseEntity.status(HttpStatus.OK).body(jobPostService.getJobByJobPosterAtPage(UUID.fromString(jwtUtil.extractUserId(token))));
 //    }
 
 
