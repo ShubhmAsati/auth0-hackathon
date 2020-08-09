@@ -132,7 +132,7 @@ public class UserConverter {
   public static UserResponse toUserResponse(UserDto userDto) {
     return UserResponse.builder()
         .mobileNumber(userDto.getMobileNumber())
-        .userType(userDto.getUserType().name())
+        .userType(userDto.getUserType()!=null?userDto.getUserType().name():null)
         .userDetails(buildUserDetailsResponse(userDto.getUserDetailsDto()))
         .build();
   }
