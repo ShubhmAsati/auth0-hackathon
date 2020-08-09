@@ -39,6 +39,21 @@ In the after COVID world where contacting with other folks will still be dangero
 # Images
 
 ## Register
-   Please fill out these details to create an account.
    <img src="https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/register.jpeg" width="350" height="600">
-   ![register Screen ](https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/register.jpeg)
+
+## Login
+  <img src="https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/login.jpeg" width="350" height="600">
+  
+## Job Search
+   <img src="https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/job_search.jpeg" width="350" height="600">
+   
+## Navigate through the jobs .   
+   <img src="https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/job_search_home_page.jpeg" width="350" height="600">
+## Post a Job 
+   ### step1 
+       <img src="https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/create_job.png" width="350" height="600">
+   ### step 2 
+       <img src="https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/job_location_add_address.jpeg" width="350" height="600">
+## My Jobs
+       <img src="https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/my-jobs.jpeg" width="350" height="600">
+   
