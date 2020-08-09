@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:covid_19_job/pages/jobs//job_card.dart';
 import 'package:covid_19_job/utils/bottom_navigator.dart';
-import 'package:covid_19_job/pages/jobs/job_search_form.dart';
 import 'package:covid_19_job/utils/current_location.dart';
+import 'package:google_maps_place_picker/google_maps_place_picker.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class JobSearchHomePage extends StatefulWidget {
   @override
@@ -19,6 +20,8 @@ class _JobSearchHomePageState extends State<JobSearchHomePage> {
   3. A bottom navigation bar
 
    */
+
+  static final kInitialPosition = LatLng(-33.8567844, 151.213108);
   CurrentLocation userLocation = new CurrentLocation();
   List<String> jobsPosted = [
     "first",
@@ -229,13 +232,16 @@ class _JobSearchHomePageState extends State<JobSearchHomePage> {
                 ),
                 Container(
                     child: RaisedButton.icon(
-                      onPressed: () {},
+//                      onPressed: null,() {
+//                        print("hi");
+//                        openMap(context);
+//                      },
                       color: Colors.white,
                       icon: Icon(
                         Icons.add_location,
                       ),
-                      label: Text('Pick Location from map'),
-                      padding: EdgeInsets.symmetric(vertical: 7, horizontal: 80),
+                      label: Text('Pick Location. (Not enabled due to billing)'),
+                      padding: EdgeInsets.symmetric(vertical: 7, horizontal: 20),
                     )),
                 Container(
                     padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -256,6 +262,25 @@ class _JobSearchHomePageState extends State<JobSearchHomePage> {
                     ))
               ],
             )),
+      ),
+    );
+  }
+
+
+  openMap(context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PlacePicker(
+          apiKey: 'AIzaSyDk5nVsq3j9ijsA5i2NChTo8PhYcq7YzeY', // Put YOUR OWN KEY here.
+          onPlacePicked: (result) {
+            print(result);
+            print('i');
+            Navigator.of(context).pop();
+          },
+          initialPosition: kInitialPosition,
+          useCurrentLocation: true,
+        ),
       ),
     );
   }
