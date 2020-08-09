@@ -267,21 +267,21 @@ class _JobSearchHomePageState extends State<JobSearchHomePage> {
   }
 
 
-  openMap(context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PlacePicker(
-          apiKey: 'AIzaSyDk5nVsq3j9ijsA5i2NChTo8PhYcq7YzeY', // Put YOUR OWN KEY here.
-          onPlacePicked: (result) {
-            print(result);
-            print('i');
-            Navigator.of(context).pop();
-          },
-          initialPosition: kInitialPosition,
-          useCurrentLocation: true,
-        ),
-      ),
-    );
-  }
+//  openMap(context) {
+//    Navigator.push(
+//      context,
+//      MaterialPageRoute(
+//        builder: (context) => PlacePicker(
+//          apiKey: 'AIzaSyDk5nVsq3j9ijsA5i2NChTo8PhYcq7YzeY', // Put YOUR OWN KEY here.
+//          onPlacePicked: (result) {
+//            print(result);
+//            print('i');
+//            Navigator.of(context).pop();
+//          },
+//          initialPosition: kInitialPosition,
+//          useCurrentLocation: true,
+//        ),
+//      ),
+//    );
+//  }
 }
