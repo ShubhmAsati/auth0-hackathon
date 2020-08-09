@@ -151,7 +151,7 @@ class _LoginUsingPasswordState extends State<LoginUsingPassword> {
     }
   }
 
-  void goToForgotPasswordScreen(BuildContext context){
+  void goToForgotPasswordScreen(BuildContext innerContext){
     LoginRegisterController lg = LoginRegisterController();
     lg.forgotPassword(dataFromPreviousPage['mobileNumber']).then((value){
       Map<String,dynamic> nextPagePayload = value;
@@ -175,7 +175,7 @@ class _LoginUsingPasswordState extends State<LoginUsingPassword> {
     });
   }
 
-  void goToJobSearchScreen(BuildContext context){
+  void goToJobSearchScreen(BuildContext innerContext){
     Map<String,dynamic> passwordDetails = {
       "mobileNumber" : dataFromPreviousPage["mobileNumber"],
       "password" : _userPasswordController.text

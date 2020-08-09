@@ -30,10 +30,15 @@ class _SearchJobsState extends State<SearchJobs> {
                     ),
                   )
               ),
-              Container(
-                  padding: EdgeInsets.symmetric(vertical: 20,horizontal: 10),
-                  alignment: Alignment.center,
-                  child: RaisedButton.icon(
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: SizedBox(
+                      width: 0,
+                    ),
+                  ),
+                  RaisedButton.icon(
                     onPressed: (){print('hi');
                    CurrentLocation.GetLatLng();
                     },
@@ -46,7 +51,14 @@ class _SearchJobsState extends State<SearchJobs> {
                         'Use my current location'
                     ),
                     padding: EdgeInsets.symmetric(vertical: 7,horizontal: 80),
-                  )
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: SizedBox(
+                      width: 0,
+                    ),
+                  ),
+                ]
               ),
               Row(
                 children: <Widget>[

@@ -122,7 +122,7 @@ class _AwwSnapState extends State<AwwSnap> {
                       borderRadius: BorderRadius.circular(25)
                     ),
                     onPressed: (){
-                      Navigator.pushReplacementNamed(context, UiPagesPath.LOGIN_BY_MOBILE);
+                      Navigator.pushReplacementNamed(context, UiPagesPath.APP_OPENING);
                     },
                     color: Colors.teal[500],
                     child: Row(

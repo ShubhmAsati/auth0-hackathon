@@ -265,7 +265,9 @@ class _AddJobState extends State<AddJob> {
                       ),
                       Container(
                           padding: EdgeInsets.fromLTRB(0, 10, 60, 0),
-                          child: ButtonBar(children: <Widget>[
+                          child: ButtonBar(
+
+                            children: <Widget>[
                             Radio(
                               value: 1,
                               groupValue: selectedRadio,

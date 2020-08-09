@@ -150,7 +150,6 @@ class _JobSearchHomePageState extends State<JobSearchHomePage> {
                     child: RaisedButton.icon(
                       onPressed: () {
                         CurrentLocation.GetLatLng();
-
                       },
                       color: Colors.white,
                       icon: Icon(
