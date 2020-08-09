@@ -63,7 +63,6 @@ public class JobPostService {
         UserDto userDto = userRepository.findUserById(userId);
         return JobPostProfileConverter.createPostResponseFromEntity(
                 jobPostProfileRepository.findById(id).orElseThrow(()-> new InvalidJobIdException(id)),UserConverter.toUserEntity(userDto));
-
     }
 
 
