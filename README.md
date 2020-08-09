@@ -35,3 +35,9 @@ In the after COVID world where contacting with other folks will still be dangero
         3. Then sort the records based on nearest to farthest.
         4. As users scroll more and more we increases the radius of the search to fill in more jobs .
     
+
+# Images
+
+## Register
+   Please fill out these details to create an account.
+   ![register Screen ](https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/register.jpeg)
