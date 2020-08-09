@@ -64,8 +64,12 @@ class _AddJobState extends State<AddJob> {
 
   @override
   void dispose() {
-    super.dispose();
+
     _dropDownController.dispose();
+    _jobDescriptionController.dispose();
+    _startLimitController.dispose();
+    _endLimitController.dispose();
+    super.dispose();
   }
 
   getSearchJobTypeDropDown() {
@@ -353,6 +357,13 @@ class _AddJobState extends State<AddJob> {
       );
       setState(() {
         _imageFile = pickedFile;
+        print(_imageFile.path);
+        String imageType = _imageFile.path.split('.').last;
+        print(imageType);
+        if(imageType != 'jpeg' && imageType != 'jpg' && imageType != 'png'){
+          showAlertDialogInInvalidImage(context);
+          clearImage();
+        }
       });
     } catch (e) {
       print(e);
@@ -374,7 +385,7 @@ class _AddJobState extends State<AddJob> {
         ),
         child: FlatButton(
             onPressed: (){
-              _imageButtonPressed(ImageSource.gallery);
+              _imageButtonPressed(ImageSource.gallery,context: context);
             },
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -437,6 +448,34 @@ class _AddJobState extends State<AddJob> {
         content: Text("Validation failed"),
       ));
     }
+  }
+  showAlertDialogInInvalidImage(BuildContext context) {
+   print("inside show alert box");
+   print(context);
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Invalid image"),
+      content: Text("Only allow jpg, jpeg, png ."),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }
 
