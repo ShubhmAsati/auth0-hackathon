@@ -96,3 +96,4 @@ In the after COVID world where contacting with other folks will still be dangero
 
 * The server is host at ip 34.71.141.11
 * You can access the apis through link http://34.71.141.11/swagger-ui.html
+* The app is not fully functional, but we tried to represent our idea.
