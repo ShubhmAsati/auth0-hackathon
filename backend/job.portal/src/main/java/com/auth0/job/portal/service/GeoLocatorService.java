@@ -4,12 +4,13 @@ import com.auth0.job.portal.enums.TypesEnum;
 import com.auth0.job.portal.model.response.ClubbedJobProfileResponse;
 import com.auth0.job.portal.repository.GeoLocationRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class GeoLocatorService {
@@ -26,7 +27,10 @@ public class GeoLocatorService {
         List<UUID> jobs=geoLocationRepository.getObjectsByCoordinatesAndType(latitude,longitude,
                 latLongs, TypesEnum.JOB);
 
-        return jobPostService.getJobByIdsMatchingJobType(jobs,userId,jobType);
+        ClubbedJobProfileResponse clubbedJobProfileResponse = jobPostService.getJobByIdsMatchingJobType(jobs,userId,jobType);
+
+        log.info("Response : {}", clubbedJobProfileResponse);
+        return clubbedJobProfileResponse;
     }
 
     public ClubbedJobProfileResponse getJobsByLocation(UUID userId,String area, String city,
