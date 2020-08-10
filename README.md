@@ -37,7 +37,7 @@ In the after COVID world where contacting with other folks will still be dangero
 
 # Flutter Server Integration
 
-1.We are using the below ip to connect to server and http package(flutter) to make rest calls in rest_handler.dart file. In this file POST, GET, PUT, DELETE calls through syncPost,syncGet,syncPut,syncDelete methods are done.
+1.We are using the below ip to connect to server and http package(flutter) to make rest calls in rest_handler.dart file. In this file POST, GET, PUT, DELETE calls through syncPost,syncGet,syncPut,syncDelete methods are made.
 <img src="https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/rest.jpg" width="600" height="300">
 2.We are storing api paths which are required to connect to respective api's in api_pages.dart file.
 3.We are passing these api path, query params, body, headers to rest_handler based on the request type(POST, GET, PUT, DELETE).
