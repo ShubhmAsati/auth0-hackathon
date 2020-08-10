@@ -1,3 +1,5 @@
+import 'package:covid_19_job/const/ui_pages.dart';
+import 'package:covid_19_job/pages/jobs/jobs_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:covid_19_job/pages/jobs/my_jobs_card.dart';
@@ -114,6 +116,19 @@ class _MyJobs extends State<MyJobs> {
   }
 
   void fetchJobs(int page) {
+    JobsController jg = JobsController();
+    jg.getUserDetails().then((value){
+      if(value['nextPage'].toString().isNotEmpty){
+        Navigator.pushNamedAndRemoveUntil(context, UiPagesPath.AWW_SNAP, (route) => false);
+      }
+      else{
+        if(value['error'].toString().isEmpty){
+          jobsPosted = value['data'];
+        }
+      }
+    }).catchError((onError){
+      print(onError);
+    });
     print(page);
     int start = page * limit;
     setState(() {

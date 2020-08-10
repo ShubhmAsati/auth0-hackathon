@@ -23,5 +23,6 @@ class ApiPath{
   static String ADD_JOB = 'post-job';
   static String USER = "user";
   static String HOME_PAGE_JOB_LIST = 'job-list';
-  static String GET_MY_JOBS = 'my-jobs';
+  static String JOBS = 'jobs';
+  static String GET_MY_JOBS = 'get-job-post';
 }

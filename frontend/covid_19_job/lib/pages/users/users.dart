@@ -43,16 +43,20 @@ class _UsersState extends State<Users> {
   }
 
   setUserDetails(){
+    print(userData);
     if(userData.isNotEmpty) {
+      print(firstNameController.text+" "+lastNameController.text);
       firstNameController.text = userData['userDetails']['firstName'];
       lastNameController.text = userData['userDetails']['lastName'];
       emailController.text = userData['userDetails']['email'];
+      landmarkController.text = userData['userDetails']['address']['landmark'];
       countryController.text = userData['userDetails']['address']['country'];
-      pincodeController.text = userData['userDetails']['address']['pinCode'];
+      pincodeController.text = userData['userDetails']['address']['pinCode'].toString();
       cityController.text = userData['userDetails']['address']['city'];
       stateController.text = userData['userDetails']['address']['state'];
       addressController.text = userData['userDetails']['address']['addressLine1'];
     }
+
   }
 
   @override
@@ -693,11 +697,11 @@ class _UsersState extends State<Users> {
     };
     jg.addUser(userDetails).then((value){
       print(value);
-      if(value['nextPage'].isNotEmpty){
+      if(value['nextPage'].toString().isNotEmpty){
         Navigator.pushNamedAndRemoveUntil(innerContext, UiPagesPath.AWW_SNAP, (route) => false);
       }
       else{
-        if(value['error'].isEmpty){
+        if(value['error'].toString().isEmpty){
           snackBar(true, "User details updated successfully", innerContext);
         }
         else{
@@ -721,7 +725,9 @@ class _UsersState extends State<Users> {
         if (value['error']
             .toString()
             .isEmpty) {
-          userData = value;
+          userData = value['data'];
+          print(userData['data']);
+          setUserDetails();
         }
         else {
           userData = null;

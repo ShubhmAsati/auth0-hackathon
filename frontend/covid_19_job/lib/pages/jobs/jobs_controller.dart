@@ -187,8 +187,8 @@ class JobsController{
     }
   }
 
-  Future<Map<String,dynamic>> GetMyJobs() async{
-    String apiPath = path.join(ApiPath.JOB_PORTAL,ApiPath.APIVERSIONV1,ApiPath.GET_MY_JOBS);
+  Future<Map<String,dynamic>> GetMyJobs(String jobId) async{
+    String apiPath = path.join(ApiPath.JOBS,ApiPath.APIVERSIONV1,ApiPath.GET_MY_JOBS);
     Map<String,String> headers = {
       HttpHeaders.authorizationHeader: "Bearer ${JWTTOKEN.token}",
       "deviceId" : GetDeviceInfo.DeviceId,
@@ -201,13 +201,13 @@ class JobsController{
         "error" : ""
       };
     }
-    else if(response.getHttpCode() == 400){
-      return {
-        "nextPage" : "",
-        "data" : response.getResponse(),
-        "error" : response.getError()
-      };
-    }
+//    else if(response.getHttpCode() == 400){
+//      return {
+//        "nextPage" : "",
+//        "data" : response.getResponse(),
+//        "error" : response.getError()
+//      };
+//    }
     else if(response.getHttpCode() == 404){
       return {
         "nextPage" : UiPagesPath.AWW_SNAP,

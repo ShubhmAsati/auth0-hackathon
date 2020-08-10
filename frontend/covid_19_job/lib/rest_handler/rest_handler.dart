@@ -10,7 +10,7 @@ import 'dart:io';
 const int httpStatusOk = 200;
 const int httpStatusBadRequest = 400;
 const int httpUnknownRequest = 503;
-const String hostPath = '10.0.2.2:8081';
+const String hostPath = '34.71.141.11:80';
 const JOB_PORTAL = "jobPortal";
 const LOGIN = "login";
 const APIVERSIONV1 = "v1";
