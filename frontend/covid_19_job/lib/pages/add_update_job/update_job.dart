@@ -243,37 +243,47 @@ class _UpdateJobState extends State<UpdateJob> {
                           ],
                         ),
                       ),
-                      Container(
-                          padding: EdgeInsets.fromLTRB(0, 10, 60, 0),
-                          child: ButtonBar(children: <Widget>[
-                            Radio(
-                              value: 1,
-                              groupValue: selectedRadio,
-                              activeColor: Colors.teal,
-                              onChanged: (val) {
-                                selectedRadioButton(val);
-                              },
-                            ),
-                            Text('Female', style: TextStyle()),
-                            Radio(
-                              value: 2,
-                              groupValue: selectedRadio,
-                              activeColor: Colors.teal,
-                              onChanged: (val) {
-                                selectedRadioButton(val);
-                              },
-                            ),
-                            Text('Male', style: TextStyle()),
-                            Radio(
-                              value: 3,
-                              groupValue: selectedRadio,
-                              activeColor: Colors.teal,
-                              onChanged: (val) {
-                                selectedRadioButton(val);
-                              },
-                            ),
-                            Text('Anyone', style: TextStyle()),
-                          ])),
+                      Row(children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: SizedBox(
+                            width: 0,
+                          ),
+                        ),
+                        Radio(
+                          value: 1,
+                          groupValue: selectedRadio,
+                          activeColor: Colors.teal,
+                          onChanged: (val) {
+                            selectedRadioButton(val);
+                          },
+                        ),
+                        Text('Female', style: TextStyle()),
+                        Radio(
+                          value: 2,
+                          groupValue: selectedRadio,
+                          activeColor: Colors.teal,
+                          onChanged: (val) {
+                            selectedRadioButton(val);
+                          },
+                        ),
+                        Text('Male', style: TextStyle()),
+                        Radio(
+                          value: 3,
+                          groupValue: selectedRadio,
+                          activeColor: Colors.teal,
+                          onChanged: (val) {
+                            selectedRadioButton(val);
+                          },
+                        ),
+                        Text('Anyone', style: TextStyle()),
+                        Expanded(
+                          flex: 3,
+                          child: SizedBox(
+                            width: 0,
+                          ),
+                        ),
+                      ]),
                       Container(
                         child: getImageContainer(),
                       ),
