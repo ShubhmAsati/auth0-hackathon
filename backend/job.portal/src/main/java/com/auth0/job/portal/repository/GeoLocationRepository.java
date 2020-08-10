@@ -31,10 +31,8 @@ public class GeoLocationRepository {
         List<UUID> ids=new LinkedList<>();
 
          entityManager.createNativeQuery("SELECT * FROM JOB_PORTAL.GEO_LOCATION WHERE OBJECT_TYPE= :type AND "+
-                "(LATITUDE BETWEEN :latMin AND :latMax) AND (LONGITUDE BETWEEN :longMin AND :longMax)"+
-                " AND LATITUDE!= :lat AND LONGITUDE!= :lng  ",GeoLocationEntity.class)
-         .setParameter("type",type.toString()).setParameter("lat",latitude).setParameter("lng",longitude)
-         .setParameter("latMax",latLongs[0]).setParameter("longMax",latLongs[1]).setParameter("latMin",latLongs[2])
+                "(LATITUDE BETWEEN :latMin AND :latMax) AND (LONGITUDE BETWEEN :longMin AND :longMax)",GeoLocationEntity.class)
+         .setParameter("type",type.toString()).setParameter("latMax",latLongs[0]).setParameter("longMax",latLongs[1]).setParameter("latMin",latLongs[2])
          .setParameter("longMin",latLongs[3]).getResultList().forEach((a)->{
              GeoLocationEntity b=(GeoLocationEntity)a;
              ids.add(b.getObjectID());

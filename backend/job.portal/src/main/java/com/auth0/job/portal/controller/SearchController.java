@@ -43,7 +43,7 @@ public class SearchController {
         else if(searchJobDto.getArea().isPresent() || searchJobDto.getCity().isPresent())
             return ResponseEntity.status(HttpStatus.OK)
                     .body(geoLocatorService.getJobsByLocation(UUID.fromString(jwtUtil.extractUserId(token)),
-                        searchJobDto.getArea().orElse(searchJobDto.getCity().get()),searchJobDto.getCity().orElse(searchJobDto.getArea().get()),
+                        searchJobDto.getArea().orElse(""),searchJobDto.getCity().orElse(""),
                         searchJobDto.getJobType().orElse(""),
                         searchJobDto.getRadius().orElse(ApplicationConstants.DEFAULT_RADIUS)));
 
@@ -64,7 +64,7 @@ public class SearchController {
         else if(searchUserDto.getArea().isPresent() || searchUserDto.getCity().isPresent())
             return ResponseEntity.status(HttpStatus.OK)
                     .body(geoLocatorService.getUsersByLocation(UUID.fromString(jwtUtil.extractUserId(token)),
-                        searchUserDto.getArea().orElse(searchUserDto.getCity().get()),searchUserDto.getCity().orElse(searchUserDto.getArea().get()),
+                        searchUserDto.getArea().orElse(""),searchUserDto.getCity().orElse(""),
                         searchUserDto.getRadius().orElse(ApplicationConstants.DEFAULT_RADIUS),
                             Enum.valueOf(TypesEnum.class,searchUserDto.getType().orElse(TypesEnum.SEEKER.toString()))));
 
