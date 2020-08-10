@@ -115,15 +115,17 @@ class _MyJobs extends State<MyJobs> {
     );
   }
 
-  void fetchJobs(int page) {
+  void fetchJobs(int page) async {
     JobsController jg = JobsController();
-    jg.getUserDetails().then((value){
+    await jg.GetMyJobs().then((value){
+      print('myjobs');
+      print(value['data']);
       if(value['nextPage'].toString().isNotEmpty){
         Navigator.pushNamedAndRemoveUntil(context, UiPagesPath.AWW_SNAP, (route) => false);
       }
       else{
         if(value['error'].toString().isEmpty){
-          jobsPosted = value['data'];
+          jobsPosted = value['data']['jobProfileResponses'];
         }
       }
     }).catchError((onError){

@@ -187,8 +187,8 @@ class JobsController{
     }
   }
 
-  Future<Map<String,dynamic>> GetMyJobs(String jobId) async{
-    String apiPath = path.join(ApiPath.JOBS,ApiPath.APIVERSIONV1,ApiPath.GET_MY_JOBS);
+  Future<Map<String,dynamic>> GetMyJobs() async{
+    String apiPath = path.join(ApiPath.GET_MY_JOBS);
     Map<String,String> headers = {
       HttpHeaders.authorizationHeader: "Bearer ${JWTTOKEN.token}",
       "deviceId" : GetDeviceInfo.DeviceId,

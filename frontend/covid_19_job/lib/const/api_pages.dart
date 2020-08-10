@@ -24,5 +24,5 @@ class ApiPath{
   static String USER = "user";
   static String HOME_PAGE_JOB_LIST = 'job-list';
   static String JOBS = 'jobs';
-  static String GET_MY_JOBS = 'get-job-post';
+  static String GET_MY_JOBS = 'get-job-posts-by-poster';
 }
