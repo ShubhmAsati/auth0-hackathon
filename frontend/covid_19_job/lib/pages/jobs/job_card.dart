@@ -14,7 +14,7 @@ class JobCard extends StatefulWidget {
 class _JobCardState extends State<JobCard> {
   Map<String, String> jobData;
   _JobCardState({this.jobData});
-
+  String mobileNumber = "8074436269";
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +196,7 @@ class _JobCardState extends State<JobCard> {
   }
 
   makePhoneCall() async{
-    const url = 'tel://8074436269';
+    String url = 'tel:$mobileNumber';
     print(url);
     if(await canLaunch(url)){
       await launch(url);
