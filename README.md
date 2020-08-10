@@ -34,7 +34,13 @@ In the after COVID world where contacting with other folks will still be dangero
         2. We search all records for a particular radius say 5 km from the search criteria. 
         3. Then sort the records based on nearest to farthest.
         4. As users scroll more and more we increases the radius of the search to fill in more jobs .
-    
+
+# Flutter Server Integration
+
+1.We are using the below ip to connect to server and http package(flutter) to make rest calls in rest_handler.dart file. In this file POST, GET, PUT, DELETE calls through syncPost,syncGet,syncPut,syncDelete methods are done.
+<img src="https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/rest.png" width="350" height="600">
+2.We are storing api paths which are required to connect to respective api's in api_pages.dart file.
+3.We are passing these api path, query params, body, headers to rest_handler based on the request type(POST, GET, PUT, DELETE).
 
 # Images
 
