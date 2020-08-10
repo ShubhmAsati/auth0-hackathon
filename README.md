@@ -63,4 +63,36 @@ In the after COVID world where contacting with other folks will still be dangero
 ## My Jobs
 
   <img src="https://github.com/ShubhmAsati/auth0-hackathon/blob/master/images/my-jobs.jpeg" width="350" height="600">
+  
+# Server Installation Steps
+
+## Prerequisites
+
+### Before you continue, ensure you have met the following requirements:
+
+* You have installed the latest version of postgres.
+* Keep the username and password as postgres otherwise change it in the application-prod.properties
+* You have a amazon aws account.
+* You have a access to aws s3 buckets.
+
+## Steps to install:
+
+* create bucket in aws s3.
+* create job_portal schema in postgres
+* add the following properties in the application-prod.properties
+
+* job.portal.google.geolocation.api.key={YOUR_GOOGLE_API_KEY}
+* job.portal.amazon.aws.endpointUrl={YOUR_AMAZON_END_POINT_URL}
+* job.portal.amazon.aws.bucketName={YOUR_AMAZON_S3_BUCKET_NAME}
+* job.portal.amazon.aws.accessKey={YOUR_AMAZON_USER_ACCESS_KEY}
+* job.portal.amazon.aws.secretKey={YOUR_AMAZON_USER_SECRET_KEY}
+* job.portal.file.path.images=images/
+* spring.servlet.multipart.max-file-size=10MB
+* spring.servlet.multipart.max-request-size=40MB
+
+* boot start the server
    
+# Note
+
+* The server is host at ip 34.71.141.11
+* You can access the apis through link http://34.71.141.11/swagger-ui.html
