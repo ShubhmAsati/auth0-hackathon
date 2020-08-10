@@ -1,21 +1,26 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 class MyJobCard extends StatefulWidget {
-  Map<String,String> jobs = new Map();
+  dynamic jobs ;
   MyJobCard({this.jobs});
   @override
   _MyJobCardState createState() => _MyJobCardState(jobs: jobs);
 }
 
 class _MyJobCardState extends State<MyJobCard> {
-  Map<String,String> jobs = new Map();
+  dynamic jobs;
   _MyJobCardState({this.jobs});
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    print(jobs);
+    print(jobs['jobType']);
+    print("helspdpsd");
     return Card(
       clipBehavior: Clip.antiAlias,
       elevation: 5,
@@ -30,7 +35,7 @@ class _MyJobCardState extends State<MyJobCard> {
                   padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
                   width: size.width,
                   child: Text(
-                      'Job Title',
+                      ' ${jobs['jobType']}',
                       style: TextStyle(
                           fontSize: 20,
                           fontFamily: 'Roboto',
@@ -42,7 +47,7 @@ class _MyJobCardState extends State<MyJobCard> {
                   padding: EdgeInsets.symmetric(vertical: 2,horizontal: 10),
                   width: size.width,
                   child: Text(
-                      'Job Description. we will add wages here itself',
+                      ' ${jobs['jobDescription']}',
                       style: TextStyle(
                           fontSize: 15,
                           color: Colors.grey[700]
@@ -54,7 +59,7 @@ class _MyJobCardState extends State<MyJobCard> {
                   padding: EdgeInsets.symmetric(vertical: 2,horizontal: 10),
                   width: size.width,
                   child: Text(
-                    'Address which is very  very long around 100 characters long , this is to peint',
+                    ' ${jobs['jobDescription']}',
                     style: TextStyle(
                       fontSize: 13,
                       color: Colors.grey[800],
@@ -81,7 +86,7 @@ class _MyJobCardState extends State<MyJobCard> {
                   children: [
                     FlatButton(
                         child:Text(
-                            'Expected price/perday'
+                            'Expected price/perday ${jobs['wageLowLimit']} to ${jobs['wageHighLimit']}'
                         )
                     ),
                     FlatButton.icon(

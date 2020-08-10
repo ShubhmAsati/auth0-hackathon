@@ -38,7 +38,7 @@ class _JobSearchHomePageState extends State<JobSearchHomePage> {
     "ten",
     "11"
   ];
-  List<Map<String, String>> activeJobs = new List();
+  List<dynamic> activeJobs = new List();
   ScrollController _scrollController = new ScrollController();
   TextEditingController _jobTypeController = new TextEditingController();
   TextEditingController _cityController = new TextEditingController();
@@ -114,7 +114,7 @@ class _JobSearchHomePageState extends State<JobSearchHomePage> {
                 controller: _scrollController,
                 itemCount: activeJobs.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Opacity(opacity: jobsOpacity, child: JobCard());
+                  return Opacity(opacity: jobsOpacity, child: JobCard(jobData: activeJobs[index],));
                 },
               ),
             )
@@ -125,19 +125,7 @@ class _JobSearchHomePageState extends State<JobSearchHomePage> {
     );
   }
 
-  void fetchJobsFirstTime(int page) async {
-    JobsController jc = new JobsController();
-    Set<double> latLng = await CurrentLocation.GetLatLng();
-    jc.GetHomePageJobs(latLng).then((value) {
-      print(value);
-      setState(() {
-        showinitialLoader = false;
-      });
-    }).catchError((onError) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, UiPagesPath.AWW_SNAP, (route) => false);
-    });
-  }
+
 
   getFloatingSearchBar() {
     return Container(
@@ -293,8 +281,31 @@ class _JobSearchHomePageState extends State<JobSearchHomePage> {
     _mycurrentLatlng = await CurrentLocation.GetLatLng();
   }
 
+  void fetchJobsFirstTime(int page) async {
+    JobsController jc = new JobsController();
+    Set<double> latLng = await CurrentLocation.GetLatLng();
+    jc.GetHomePageJobs(latLng).then((value) {
+      print(value);
+      if(value['error'].toString().isEmpty){
+        setState(() {
+          showinitialLoader = false;
+          print(value['data']['jobProfileResponses']);
+          activeJobs = value['data']['jobProfileResponses'];
+        });
+      }else{
+        showinitialLoader = false;
+        activeJobs = [];
+      }
+    }).catchError((onError) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, UiPagesPath.AWW_SNAP, (route) => false);
+    });
+  }
+
   searchJobs() {
     String searchLocationLat, searchLocationLng;
+    searchLocationLng = '';
+    searchLocationLat = '';
     if (_mycurrentLatlng != null &&_mycurrentLatlng.isNotEmpty&& _mycurrentLatlng.length == 2) {
       searchLocationLat = _mycurrentLatlng.elementAt(0).toString();
       searchLocationLng = _mycurrentLatlng.elementAt(1).toString();
@@ -302,21 +313,24 @@ class _JobSearchHomePageState extends State<JobSearchHomePage> {
     String jobType = _jobTypeController.text;
     String city = _cityController.text;
     String locality = _localityController.text;
-    Map<String, String> requestPayload = {
-      'searchLocationLat': searchLocationLat,
-      'searchLocationLng': searchLocationLng,
+    Map<String, String> queryParams = {
+      'latitude': searchLocationLat,
+      'longitude': searchLocationLng,
       'jobType': jobType,
       'city': city,
-      'locality': locality,
+      'area': locality,
+      'radius': '40',
     };
-    print(requestPayload);
+    print(queryParams);
     JobsController jc = new JobsController();
     setState(() {
       showinitialLoader = true;
     });
-    jc.GetJobBySeachCriteria(requestPayload).then((value) {
+    jc.GetJobBySeachCriteria(queryParams).then((value) {
       print(value);
-
+      setState(() {
+        showinitialLoader = false;
+      });
     }).catchError((onError) {
       setState(() {
         showinitialLoader=false;

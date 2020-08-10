@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class JobCard extends StatefulWidget {
-  Map<String, String> jobData;
+  dynamic jobData;
   JobCard({this.jobData});
 
   @override
@@ -12,13 +12,14 @@ class JobCard extends StatefulWidget {
 }
 
 class _JobCardState extends State<JobCard> {
-  Map<String, String> jobData;
+  dynamic jobData;
   _JobCardState({this.jobData});
   String mobileNumber = "8074436269";
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    print(jobData);
     return Card(
       clipBehavior: Clip.antiAlias,
       elevation: 5,
@@ -54,9 +55,9 @@ class _JobCardState extends State<JobCard> {
                           )
                         ],
                       ),
-                      title: const Text('Posted By'),
+                      title: new Text(' ${jobData['postedBy']}'),
                       subtitle: Text(
-                        'Profession',
+                        ' Profession',
                         style:
                         TextStyle(color: Colors.black.withOpacity(0.6)),
                       ),
@@ -76,7 +77,7 @@ class _JobCardState extends State<JobCard> {
                   padding: EdgeInsets.symmetric(vertical: 0,horizontal: 10),
                   width: size.width,
                   child: Text(
-                      'Job Title',
+                      ' ${jobData['jobType']}',
                       style: TextStyle(
                           fontSize: 20,
                           fontFamily: 'Roboto',
@@ -88,7 +89,7 @@ class _JobCardState extends State<JobCard> {
                   padding: EdgeInsets.symmetric(vertical: 2,horizontal: 10),
                   width: size.width,
                   child: Text(
-                      'Job Description. we will add wages here itself',
+                      ' ${jobData['jobDescription']}',
                       style: TextStyle(
                           fontSize: 15,
                           color: Colors.grey[700]
@@ -131,7 +132,7 @@ class _JobCardState extends State<JobCard> {
                       flex: 5,
                       child: FlatButton(
                           child:Text(
-                              'Expected price/perday'
+                              'Expected price/perday ${jobData['wageLowLimit']} to ${jobData['wageHighLimit']}'
                           )
                       ),
                     ),
@@ -177,8 +178,6 @@ class _JobCardState extends State<JobCard> {
                           )
                       ),
                     ),
-
-
                   ],
             )
           ],

@@ -114,18 +114,21 @@ class JobsController{
   }
 
   Future<Map<String,dynamic>> GetHomePageJobs(Set<double> latlng) async{
-    String apiPath = path.join(ApiPath.JOB_PORTAL,ApiPath.APIVERSIONV1,ApiPath.HOME_PAGE_JOB_LIST);
+    String apiPath = path.join(ApiPath.HOME_PAGE_JOB_LIST);
     Map<String,String> headers = {
       HttpHeaders.authorizationHeader: "Bearer ${JWTTOKEN.token}",
       "deviceId" : GetDeviceInfo.DeviceId,
+      "Content-Type" : "application/json; charset=UTF-8",
     };
     double lat = latlng.elementAt(0);
     double lng = latlng.elementAt(1);
-    Map<String,String> queryParams = {
-      'lat' : '$lat',
-      'lng' : '$lng',
+    Map<String,String> requestPayload = {
+      'latitude' : '$lat',
+      'longitude' : '$lng',
     };
-    ResponseHandler response = await RestHandler.syncGet(apiPath, queryParams, headers);
+    String body = json.encode(requestPayload);
+    ResponseHandler response = await RestHandler.syncPost(apiPath, null,headers,body);
+    print(response.getHttpCode());
     if(response.getHttpCode() == 200){
       return {
         "nextPage" : "",
@@ -153,14 +156,15 @@ class JobsController{
   }
 
   Future<Map<String,dynamic>> GetJobBySeachCriteria(Map<String,String> requestPayload) async{
-    String apiPath = path.join(ApiPath.JOB_PORTAL,ApiPath.APIVERSIONV1,ApiPath.JOB);
+    String apiPath = path.join(ApiPath.HOME_PAGE_JOB_LIST);
     Map<String,String> headers = {
       HttpHeaders.authorizationHeader: "Bearer ${JWTTOKEN.token}",
       "deviceId" : GetDeviceInfo.DeviceId,
+      "Content-Type" : "application/json; charset=UTF-8",
     };
     String body = json.encode(requestPayload);
-    print(body);
     ResponseHandler response = await RestHandler.syncPost(apiPath, null, headers,body);
+    print(response.getHttpCode());
     if(response.getHttpCode() == 200){
       return {
         "nextPage" : "",
@@ -194,6 +198,8 @@ class JobsController{
       "deviceId" : GetDeviceInfo.DeviceId,
     };
     ResponseHandler response = await RestHandler.syncGet(apiPath, null, headers);
+    print(response.getResponse());
+    print(response.getHttpCode());
     if(response.getHttpCode() == 200){
       return {
         "nextPage" : "",

@@ -31,24 +31,23 @@ class _MyJobs extends State<MyJobs> {
     "ten",
     "11"
   ];
-  List<String> activeJobs = new List();
+  List<dynamic> activeJobs = new List();
   ScrollController _scrollController = new ScrollController();
   int limit = 5;
   int page = 0;
   @override
   void initState() {
     super.initState();
-    fetchJobs(page);
-    page++;
+    fetchJobs();
 
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        //reached to the end
-        fetchJobs(page);
-        page++;
-      }
-    });
+//    _scrollController.addListener(() {
+//      if (_scrollController.position.pixels ==
+//          _scrollController.position.maxScrollExtent) {
+//        //reached to the end
+//        fetchJobs();
+//        page++;
+//      }
+//    });
   }
 
   @override
@@ -104,7 +103,7 @@ class _MyJobs extends State<MyJobs> {
                 controller: _scrollController,
                 itemCount: activeJobs.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return MyJobCard();
+                  return MyJobCard(jobs: activeJobs[index]);
                 },
               ),
             )
@@ -115,29 +114,24 @@ class _MyJobs extends State<MyJobs> {
     );
   }
 
-  void fetchJobs(int page) async {
-    JobsController jg = JobsController();
-    await jg.GetMyJobs().then((value){
-      print('myjobs');
-      print(value['data']);
-      if(value['nextPage'].toString().isNotEmpty){
+  void fetchJobs() {
+    JobsController jc = new JobsController();
+    jc.GetMyJobs().then((value) {
+      print(value);
+      if(value['error'].toString().isEmpty){
+        print("hi");
+         print(value['data']['jobProfileResponses']);
+         setState(() {
+           activeJobs = value['data']['jobProfileResponses'];
+         });
+      }else{
         Navigator.pushNamedAndRemoveUntil(context, UiPagesPath.AWW_SNAP, (route) => false);
-      }
-      else{
-        if(value['error'].toString().isEmpty){
-          jobsPosted = value['data']['jobProfileResponses'];
-        }
       }
     }).catchError((onError){
       print(onError);
+      Navigator.pushNamedAndRemoveUntil(context, UiPagesPath.AWW_SNAP, (route) => false);
     });
-    print(page);
-    int start = page * limit;
-    setState(() {
-      for (int i = start; i < start + limit && i < jobsPosted.length; i++) {
-        activeJobs.add(jobsPosted[i]);
-      }
-    });
+
   }
 
   goToUpdateJob(){
